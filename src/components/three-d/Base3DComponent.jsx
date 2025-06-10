@@ -1,6 +1,23 @@
 import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 
+// Mobile detection
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+  
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+};
+
 /**
  * Base3DComponent - Parent class for all 3D elements
  * Provides common props and behaviors that all 3D components can use
@@ -42,22 +59,25 @@ const Base3DComponent = React.forwardRef(({
   const meshRef = useRef();
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const isMobile = useIsMobile();
   
   // Animation frame loop
   useFrame((state, delta) => {
     if (!meshRef.current) return;
     
-    // Auto rotation
+    // Auto rotation (slower on mobile for better performance)
     if (animated && rotationSpeed) {
-      meshRef.current.rotation.x += rotationSpeed[0];
-      meshRef.current.rotation.y += rotationSpeed[1];
-      meshRef.current.rotation.z += rotationSpeed[2];
+      const speedMultiplier = isMobile ? 0.5 : 1;
+      meshRef.current.rotation.x += rotationSpeed[0] * speedMultiplier;
+      meshRef.current.rotation.y += rotationSpeed[1] * speedMultiplier;
+      meshRef.current.rotation.z += rotationSpeed[2] * speedMultiplier;
     }
     
-    // Oscillation (floating effect)
+    // Oscillation (reduced on mobile)
     if (oscillate) {
       const time = state.clock.elapsedTime;
-      meshRef.current.position.y = position[1] + Math.sin(time * oscillateSpeed) * oscillateAmount;
+      const amplitude = isMobile ? oscillateAmount * 0.5 : oscillateAmount;
+      meshRef.current.position.y = position[1] + Math.sin(time * oscillateSpeed) * amplitude;
     }
     
     // Custom before render callback
@@ -75,7 +95,8 @@ const Base3DComponent = React.forwardRef(({
   
   const handlePointerOver = (event) => {
     event.stopPropagation();
-    if (interactive) {
+    // Disable hover effects on mobile to avoid touch issues
+    if (interactive && !isMobile) {
       setIsHovered(true);
       document.body.style.cursor = 'pointer';
     }
@@ -83,7 +104,7 @@ const Base3DComponent = React.forwardRef(({
   
   const handlePointerOut = (event) => {
     event.stopPropagation();
-    if (interactive) {
+    if (interactive && !isMobile) {
       setIsHovered(false);
       document.body.style.cursor = 'auto';
     }
