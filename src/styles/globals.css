@@ -9,15 +9,33 @@
   box-sizing: border-box;
 }
 
+/* Default theme variables (fallbacks) */
+:root {
+  --color-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --color-text: #ffffff;
+  --color-surface: rgba(255, 255, 255, 0.1);
+  --color-primary: #3b82f6;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-background);
+  color: var(--color-text);
   min-height: 100vh;
   overflow-x: hidden;
+  transition: all 0.5s ease;
+}
+
+/* Theme-specific body styles */
+.theme-gravity-falls body {
+  background: var(--color-background);
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* 3D Canvas specific styles */
@@ -30,7 +48,7 @@ body {
 /* Ensure the canvas takes full screen */
 canvas {
   display: block;
-  touch-action: none; /* Prevents scrolling on mobile while interacting */
+  touch-action: none;
 }
 
 /* Loading states */
@@ -39,7 +57,7 @@ canvas {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
+  color: var(--color-text);
   font-size: 1.2rem;
 }
 
@@ -58,13 +76,114 @@ canvas {
   pointer-events: auto;
 }
 
+/* Theme-aware UI elements */
+.theme-ui-panel {
+  background: var(--color-surface, rgba(255, 255, 255, 0.1));
+  color: var(--color-text, #ffffff);
+  border: 1px solid var(--color-glass-border, rgba(255, 255, 255, 0.3));
+  border-radius: var(--ui-border-radius, 12px);
+  backdrop-filter: blur(var(--ui-backdrop-blur, 10px));
+  padding: 1rem;
+  box-shadow: var(--ui-shadow-primary, 0 4px 20px rgba(0, 0, 0, 0.25));
+  transition: all var(--animations-color-transition, 0.5s) ease;
+}
+
+/* Gravity Falls terminal styling */
+.theme-gravity-falls .theme-ui-panel {
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: 
+    0 0 20px var(--color-primary),
+    0 0 40px var(--color-primary),
+    inset 0 0 20px rgba(0, 255, 65, 0.1);
+  animation: terminalGlow 2s ease-in-out infinite alternate;
+}
+
+.theme-gravity-falls .theme-ui-text {
+  color: var(--color-primary);
+  text-shadow: 0 0 10px var(--color-primary);
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Terminal-style buttons for Gravity Falls theme */
+.theme-gravity-falls .theme-button {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.5rem 1rem;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  box-shadow: 0 0 10px var(--color-primary);
+}
+
+.theme-gravity-falls .theme-button:hover {
+  background: var(--color-primary);
+  color: var(--color-background);
+  box-shadow: 
+    0 0 20px var(--color-primary),
+    0 0 40px var(--color-primary);
+}
+
+.theme-gravity-falls .theme-button.active {
+  background: var(--color-primary);
+  color: var(--color-background);
+  box-shadow: 
+    0 0 15px var(--color-primary),
+    inset 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Terminal scanlines effect */
+.theme-gravity-falls::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    transparent 50%,
+    rgba(0, 255, 65, 0.03) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1000;
+  animation: scanlines 0.1s linear infinite;
+}
+
+/* Animations for Gravity Falls theme */
+@keyframes terminalGlow {
+  0% { 
+    box-shadow: 
+      0 0 20px var(--color-primary),
+      0 0 40px var(--color-primary),
+      inset 0 0 20px rgba(0, 255, 65, 0.1);
+  }
+  100% { 
+    box-shadow: 
+      0 0 30px var(--color-primary),
+      0 0 60px var(--color-primary),
+      inset 0 0 30px rgba(0, 255, 65, 0.2);
+  }
+}
+
+@keyframes scanlines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
 /* Responsive 3D adjustments */
 @media (max-width: 768px) {
   .three-canvas {
     height: 100vh;
   }
   
-  /* Reduce complexity on mobile if needed */
   .mobile-optimized {
     transform: scale(0.8);
   }
@@ -76,5 +195,9 @@ canvas {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  
+  .theme-gravity-falls::before {
+    display: none;
   }
 }

@@ -1,7 +1,57 @@
-import React, { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
+import React, { Suspense, useEffect } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
+import { useTheme } from '../../hooks/useTheme.jsx';
+import * as THREE from 'three';
 
+// Component to handle theme-based lighting
+const ThemeLighting = () => {
+  const { getThemeProperty } = useTheme();
+  
+  const ambientColor = getThemeProperty('lighting.ambientColor', '#ffffff');
+  const ambientIntensity = parseFloat(getThemeProperty('lighting.ambientIntensity', '0.4'));
+  const directionalColor = getThemeProperty('lighting.directionalColor', '#ffffff');
+  const directionalIntensity = parseFloat(getThemeProperty('lighting.directionalIntensity', '0.6'));
+  const directionalPosition = getThemeProperty('lighting.directionalPosition', [10, 10, 5]);
+  
+  return (
+    <>
+      {/* Theme-controlled ambient light */}
+      <ambientLight color={ambientColor} intensity={ambientIntensity} />
+      
+      {/* Theme-controlled directional light */}
+      <directionalLight 
+        color={directionalColor}
+        position={directionalPosition} 
+        intensity={directionalIntensity}
+        castShadow={true}
+        shadow-mapSize={[1024, 1024]}
+      />
+    </>
+  );
+};
+const SceneBackground = () => {
+  const { scene } = useThree();
+  const { getThemeProperty } = useTheme();
+  
+  useEffect(() => {
+    const backgroundColor = getThemeProperty('scene.backgroundColor', '#667eea');
+    const fogColor = getThemeProperty('scene.fogColor', null);
+    const fogDensity = getThemeProperty('scene.fogDensity', 0);
+    
+    // Set scene background
+    scene.background = new THREE.Color(backgroundColor);
+    
+    // Set fog if specified in theme
+    if (fogColor && fogDensity > 0) {
+      scene.fog = new THREE.FogExp2(new THREE.Color(fogColor), fogDensity);
+    } else {
+      scene.fog = null;
+    }
+  }, [scene, getThemeProperty]);
+  
+  return null;
+};
 // Mobile detection hook
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = React.useState(false);
@@ -33,6 +83,10 @@ const ThreeCanvas = ({
   ...props 
 }) => {
   const isMobile = useIsMobile();
+  const { getThemeProperty } = useTheme();
+  
+  // Get theme-specific scene settings
+  const environmentPreset = getThemeProperty('lighting.environmentPreset', environment);
   
   // Mobile-optimized settings
   const mobileSettings = {
@@ -68,6 +122,9 @@ const ThreeCanvas = ({
         }}
         {...props}
       >
+        {/* Scene background and fog controller */}
+        <SceneBackground />
+        
         {/* Camera setup */}
         <PerspectiveCamera 
           makeDefault 
@@ -75,17 +132,14 @@ const ThreeCanvas = ({
           fov={camera.fov}
         />
         
+        {/* Theme-controlled lighting */}
+        <ThemeLighting />
+        
         {/* Basic lighting setup */}
-        <ambientLight intensity={0.4} />
-        <directionalLight 
-          position={[10, 10, 5]} 
-          intensity={0.6}
-          castShadow={shadows}
-          shadow-mapSize={[1024, 1024]}
-        />
+        {/* Removed static lights - now controlled by theme */}
         
         {/* Environment for reflections and ambient lighting */}
-        <Environment preset={settings.environment} />
+        <Environment preset={environmentPreset} />
         
         {/* Orbit controls for mouse/touch interaction */}
         {controls && (

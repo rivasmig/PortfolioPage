@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useTheme } from '../../hooks/useTheme.jsx';
 
 // Mobile detection
 const useIsMobile = () => {
@@ -60,6 +61,7 @@ const Base3DComponent = React.forwardRef(({
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const isMobile = useIsMobile();
+  const { getThemeProperty } = useTheme();
   
   // Animation frame loop
   useFrame((state, delta) => {
@@ -116,6 +118,28 @@ const Base3DComponent = React.forwardRef(({
     return color;
   };
   
+  // Check if we should use wireframe mode (theme-controlled or manual)
+  const shouldUseWireframe = () => {
+    // Manual override first
+    if (wireframe !== false) return wireframe;
+    
+    // Then check theme default
+    const themeWireframe = getThemeProperty('scene.defaultWireframe', false);
+    return themeWireframe;
+  };
+  
+  // Get material properties
+  const getMaterialProps = () => {
+    const isWireframe = shouldUseWireframe();
+    
+    return {
+      color: getCurrentColor(),
+      wireframe: isWireframe,
+      transparent: opacity < 1 || isWireframe,
+      opacity: isWireframe ? parseFloat(getThemeProperty('materials.wireframeOpacity', '0.8')) : opacity,
+    };
+  };
+  
   // Determine current scale based on interaction state
   const getCurrentScale = () => {
     const baseScale = Array.isArray(scale) ? scale : [scale, scale, scale];
@@ -143,10 +167,7 @@ const Base3DComponent = React.forwardRef(({
     >
       {children}
       <meshStandardMaterial 
-        color={getCurrentColor()}
-        transparent={opacity < 1}
-        opacity={opacity}
-        wireframe={wireframe}
+        {...getMaterialProps()}
       />
     </mesh>
   );
