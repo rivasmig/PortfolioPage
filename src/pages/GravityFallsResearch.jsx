@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageWrapper from '../components/content/PageWrapper';
 import { useTheme } from '../hooks/useTheme';
 
@@ -6,74 +7,25 @@ import { useTheme } from '../hooks/useTheme';
 import TextContainer3D from '../components/three-d/containers/TextContainer3D';
 import Interactive3D from '../components/three-d/base/Interactive3D';
 
-// Import markdown components
-import MarkdownCard from '../components/three-d/containers/MarkdownCard';
-import { loadMarkdownContent } from '../utils/content/markdownLoader';
-
 /**
- * Gravity Falls Research Page - Interactive data analysis presentation
- * Now uses the reusable MarkdownCard component
+ * Gravity Falls Research Page - Navigation Interface
+ * Click shapes to navigate to individual pages
  */
 const GravityFallsResearch = () => {
-  const { setTheme, currentTheme } = useTheme();
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [cardData, setCardData] = useState({});
-  const [loading, setLoading] = useState(true);
+  const { setTheme } = useTheme();
+  const navigate = useNavigate();
   
   // Set theme when page loads
   useEffect(() => {
     setTheme('gravity-falls');
   }, [setTheme]);
   
-  // Load markdown content on mount
-  useEffect(() => {
-    const loadContent = async () => {
-      try {
-        const files = ['hypothesis', 'background', 'methods', 'data', 'discussion'];
-        const content = await loadMarkdownContent('gravity-falls', files);
-        setCardData(content);
-        console.log('Loaded Gravity Falls content:', content);
-      } catch (error) {
-        console.error('Failed to load markdown content:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    loadContent();
-  }, []);
-  
-  // Handle shape clicks
-  const handleShapeClick = (cardType) => {
-    setSelectedCard(cardType);
+  // Handle shape clicks - navigate to individual pages
+  const handleShapeClick = (section) => {
+    navigate(`./${section}`);
   };
   
-  // Close card
-  const closeCard = () => {
-    setSelectedCard(null);
-  };
-  
-  // Show loading state
-  if (loading) {
-    return (
-      <PageWrapper
-        title="Loading Gravity Falls Research..."
-        layout="fullscreen-3d"
-        backgroundElements={
-          <TextContainer3D
-            position={[0, 0, 0]}
-            text="LOADING RESEARCH DATA..."
-            fontSize={0.5}
-            color="#00ff41"
-            anchorX="center"
-            anchorY="center"
-          />
-        }
-      />
-    );
-  }
-  
-  // 3D Scene with locked camera and interactive shapes
+  // 3D Scene with interactive navigation shapes
   const backgroundElements = (
     <>
       {/* Central upside-down pyramid */}
@@ -82,7 +34,7 @@ const GravityFallsResearch = () => {
         rotation={[Math.PI, 0, 0]} // Upside down
         color="#00ff41"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('methods')}
+        onClick={() => handleShapeClick('MethodsPage')}
         hoverScale={1.1}
         springiness={0.1}
       >
@@ -94,7 +46,7 @@ const GravityFallsResearch = () => {
         position={[-2.5, 1.5, 0]}
         color="#39ff14"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('hypothesis')}
+        onClick={() => handleShapeClick('HypothesisPage')}
         hoverScale={1.2}
         springiness={0.1}
         animated={true}
@@ -109,7 +61,7 @@ const GravityFallsResearch = () => {
         position={[2.5, 1.5, 0]}
         color="#39ff14"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('background')}
+        onClick={() => handleShapeClick('BackgroundPage')}
         hoverScale={1.2}
         springiness={0.1}
         animated={true}
@@ -124,7 +76,7 @@ const GravityFallsResearch = () => {
         position={[-2.5, -1.5, 0]}
         color="#39ff14"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('data')}
+        onClick={() => handleShapeClick('DataPage')}
         hoverScale={1.2}
         springiness={0.1}
         animated={true}
@@ -139,7 +91,7 @@ const GravityFallsResearch = () => {
         position={[2.5, -1.5, 0]}
         color="#39ff14"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('discussion')}
+        onClick={() => handleShapeClick('DiscussionPage')}
         hoverScale={1.2}
         springiness={0.1}
         animated={true}
@@ -228,37 +180,28 @@ const GravityFallsResearch = () => {
         title="Gravity Falls Research Project"
         layout="fullscreen-3d"
         backgroundElements={backgroundElements}
-        showThemeToggle={false} // Hide theme toggle for focused experience
+        showThemeToggle={false}
       />
       
-      {/* Instructions overlay - OUTSIDE the 3D canvas */}
+      {/* Instructions overlay */}
       <div className="absolute top-4 left-4 z-20 theme-ui-panel p-4 max-w-xs">
         <p className="theme-ui-text font-mono text-sm mb-2">
-          &gt; INTERACTIVE ANALYSIS
+          &gt; INTERACTIVE RESEARCH NAVIGATION
         </p>
         <p className="theme-ui-text font-mono text-xs opacity-80">
-          Click on any shape to view detailed research sections
+          Click on any shape to view that research section
         </p>
       </div>
       
-      {/* Home button - OUTSIDE the 3D canvas */}
+      {/* Home button */}
       <div className="absolute top-4 right-4 z-20">
         <button 
-          onClick={() => window.history.back()}
+          onClick={() => navigate('/')}
           className="theme-button px-4 py-2 font-mono text-sm"
         >
           &gt; RETURN TO MAIN TERMINAL
         </button>
       </div>
-      
-      {/* Reusable MarkdownCard component */}
-      <MarkdownCard
-        cardData={cardData}
-        selectedCard={selectedCard}
-        onClose={closeCard}
-        theme="gravity-falls"
-        showSpecialSections={true}
-      />
     </>
   );
 };

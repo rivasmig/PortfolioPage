@@ -9,6 +9,11 @@ import { useTheme } from './hooks/useTheme.jsx';
 
 // Import page components
 import GravityFallsResearch from './pages/GravityFallsResearch';
+import HypothesisPage from './pages/HypothesisPage';
+import BackgroundPage from './pages/BackgroundPage';
+import MethodsPage from './pages/MethodsPage';
+import DataPage from './pages/DataPage';
+import DiscussionPage from './pages/DiscussionPage';
 
 // Import 3D components for the landing page
 import WireframePyramid from './components/three-d/wireframes/WireframePyramid';
@@ -219,6 +224,7 @@ const RedirectToHome = () => {
   
   return <div>Redirecting...</div>;
 };
+
 const ComingSoonPage = ({ title }) => {
   const { setTheme } = useTheme();
   
@@ -244,7 +250,7 @@ const ComingSoonPage = ({ title }) => {
 
 /**
  * App - Main application with routing
- * Phase 4: Landing page with navigation to MDX pages
+ * Updated with individual Gravity Falls research pages
  */
 function App() {
   
@@ -261,11 +267,22 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Main pages */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/gravity-falls-research" element={<GravityFallsResearch />} />
+        
+        {/* Gravity Falls research sub-pages */}
+        <Route path="/gravity-falls-research/HypothesisPage" element={<HypothesisPage />} />
+        <Route path="/gravity-falls-research/BackgroundPage" element={<BackgroundPage />} />
+        <Route path="/gravity-falls-research/MethodsPage" element={<MethodsPage />} />
+        <Route path="/gravity-falls-research/DataPage" element={<DataPage />} />
+        <Route path="/gravity-falls-research/DiscussionPage" element={<DiscussionPage />} />
+        
+        {/* Other portfolio pages */}
         <Route path="/interactive-demo" element={<ComingSoonPage title="Interactive Demo" />} />
         <Route path="/minimal-gallery" element={<ComingSoonPage title="Minimal Gallery" />} />
         <Route path="/about" element={<ComingSoonPage title="About Me" />} />
+        
         {/* Development redirects - handle /PortfolioPage/ URLs */}
         <Route path="/PortfolioPage/" element={<RedirectToHome />} />
         <Route path="/PortfolioPage" element={<RedirectToHome />} />
