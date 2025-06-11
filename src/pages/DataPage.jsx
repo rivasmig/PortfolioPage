@@ -4,7 +4,7 @@ import { useTheme } from '../hooks/useTheme';
 
 /**
  * DataPage - Interactive data visualization gallery
- * Showcases research visualizations with terminal aesthetics
+ * Showcases research visualizations with terminal aesthetics - 6 graphs total
  */
 const DataPage = () => {
   const { setTheme } = useTheme();
@@ -19,67 +19,99 @@ const DataPage = () => {
   
   const visualizations = [
     {
-      id: 'network',
-      title: 'Episode Network',
-      subtitle: 'Connection Topology',
-      description: 'Complete network visualization showing all episode connections and their relative strengths',
-      imagePath: '/GravityFallsResearchAssets/GF_Degree.png',
-      icon: '🕸️',
+      id: 'imdb-sentiment',
+      title: 'IMDB vs Sentiment',
+      subtitle: 'Rating Correlation',
+      description: 'IMDB episode ratings plotted against average sentiment scores (AFINN) to analyze viewer reception patterns',
+      imagePath: 'https://i.ibb.co/xth0SCDF/GF-Further-Analysis2.png',
+      icon: '📊',
       color: 'text-cyan-400',
       bgColor: 'bg-cyan-900 bg-opacity-20',
       borderColor: 'border-cyan-400',
       stats: {
-        nodes: '40 Episodes',
-        edges: '157 Connections', 
-        density: '0.203'
+        type: 'ggplot',
+        xaxis: 'Sentiment Score',
+        yaxis: 'IMDB Rating'
       }
     },
     {
-      id: 'centrality',
-      title: 'Centrality Analysis',
-      subtitle: 'Importance Metrics',
-      description: 'Centrality scores for each episode showing their relative importance in the network',
-      imagePath: '/GravityFallsResearchAssets/GF_Degree.png',
+      id: 'imdb-degree',
+      title: 'IMDB vs Degree',
+      subtitle: 'Connection Impact',
+      description: 'IMDB ratings versus degree correlation to determine if highly connected episodes receive better ratings',
+      imagePath: 'https://i.ibb.co/rKMwsYQX/GF-Further-Analaysis1.png',
       icon: '📈',
       color: 'text-yellow-400',
       bgColor: 'bg-yellow-900 bg-opacity-20',
       borderColor: 'border-yellow-400',
       stats: {
-        metric: 'Betweenness',
-        highest: 'Not What He Seems',
-        score: '0.847'
+        type: 'ggplot',
+        xaxis: 'Degree Correlation',
+        yaxis: 'IMDB Rating'
       }
     },
     {
-      id: 'distribution',
-      title: 'Degree Distribution',
-      subtitle: 'Connection Patterns',
-      description: 'Distribution of incoming and outgoing connections across all episodes',
-      imagePath: '/GravityFallsResearchAssets/GF_Degree.png',
-      icon: '📊',
+      id: 'eigen-centrality',
+      title: 'Eigen Centrality',
+      subtitle: 'Influence Networks',
+      description: 'Eigenvector centrality visualization showing episodes with the highest influence in the narrative network',
+      imagePath: 'https://i.ibb.co/7xMZZ6Gn/image2.png',
+      icon: '🕸️',
       color: 'text-green-400',
       bgColor: 'bg-green-900 bg-opacity-20',
       borderColor: 'border-green-400',
       stats: {
-        avgDegree: '7.85',
-        maxIn: '12',
-        maxOut: '15'
+        type: 'Gephi Nodes',
+        metric: 'Eigenvector',
+        focus: 'Influence'
       }
     },
     {
-      id: 'timeline',
-      title: 'Timeline Connectivity',
-      subtitle: 'Temporal Flow',
-      description: 'Episode connections mapped across the series timeline showing narrative flow',
-      imagePath: '/GravityFallsResearchAssets/GF_Degree.png',
-      icon: '⏱️',
+      id: 'betweenness-centrality',
+      title: 'Betweenness Centrality',
+      subtitle: 'Bridge Episodes',
+      description: 'Betweenness centrality analysis identifying episodes that serve as crucial bridges in the narrative flow',
+      imagePath: 'https://i.ibb.co/wr0VpR7V/image4.png',
+      icon: '🌉',
       color: 'text-purple-400',
       bgColor: 'bg-purple-900 bg-opacity-20',
       borderColor: 'border-purple-400',
       stats: {
-        timespan: '2 Seasons',
-        peaks: '3 Major Arcs',
-        flow: 'Forward-Heavy'
+        type: 'Gephi Nodes',
+        metric: 'Betweenness',
+        focus: 'Bridge Points'
+      }
+    },
+    {
+      id: 'reverse-degree',
+      title: 'Reverse Degree',
+      subtitle: 'Isolated Episodes',
+      description: 'Degree analysis in reverse - emphasizing episodes with the fewest connections to identify standalone content',
+      imagePath: 'https://i.ibb.co/XkMwvkv7/image.png',
+      icon: '🔻',
+      color: 'text-red-400',
+      bgColor: 'bg-red-900 bg-opacity-20',
+      borderColor: 'border-red-400',
+      stats: {
+        type: 'Gephi Nodes',
+        metric: 'Degree (Reverse)',
+        focus: 'Least Connected'
+      }
+    },
+    {
+      id: 'out-degree',
+      title: 'Out Degree',
+      subtitle: 'Foreshadowing Hub',
+      description: 'Out-degree analysis showing episodes that reference or foreshadow the most future episodes',
+      imagePath: 'https://i.ibb.co/GvtmJmL5/image3.png',
+      icon: '➡️',
+      color: 'text-orange-400',
+      bgColor: 'bg-orange-900 bg-opacity-20',
+      borderColor: 'border-orange-400',
+      stats: {
+        type: 'Gephi Nodes',
+        metric: 'Out-Degree',
+        focus: 'Future References'
       }
     }
   ];
@@ -129,48 +161,49 @@ const DataPage = () => {
         <div className="border border-current p-8 bg-black bg-opacity-30">
           <h2 className="text-2xl font-bold mb-6 flex items-center">
             <span className="text-green-400 mr-3">&gt;&gt;</span>
-            DATA VISUALIZATION SUITE
+            COMPREHENSIVE DATA ANALYSIS SUITE
           </h2>
           <p className="text-lg leading-relaxed">
-            Our analysis produced several key visualizations showing the 
-            <span className="text-cyan-400 font-bold"> network structure</span> of Gravity Falls episodes and their 
-            <span className="text-yellow-400 font-bold"> interconnections</span>. Each visualization reveals different aspects 
-            of the narrative connectivity within the series.
+            Our analysis produced <span className="text-yellow-400 font-bold">six key visualizations</span> combining 
+            <span className="text-cyan-400 font-bold"> network analysis</span>, 
+            <span className="text-green-400 font-bold"> sentiment data</span>, and 
+            <span className="text-purple-400 font-bold"> IMDB ratings</span> to provide a comprehensive view of 
+            episode connectivity and viewer reception patterns.
           </p>
         </div>
         
-        {/* Visualization Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Visualization Grid - 3 columns for 6 items */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {visualizations.map((viz, index) => (
             <div 
               key={viz.id}
               className={`border-2 ${viz.borderColor} ${viz.bgColor} rounded-lg overflow-hidden hover:scale-105 transition-all duration-300 cursor-pointer`}
               onClick={() => openModal(viz)}
-              style={{ animationDelay: `${index * 0.2}s` }}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Viz Header */}
-              <div className={`${viz.bgColor} p-4 border-b ${viz.borderColor} flex items-center justify-between`}>
+              <div className={`${viz.bgColor} p-3 border-b ${viz.borderColor} flex items-center justify-between`}>
                 <div className="flex items-center">
-                  <span className="text-2xl mr-3">{viz.icon}</span>
+                  <span className="text-xl mr-2">{viz.icon}</span>
                   <div>
-                    <h3 className={`text-xl font-bold ${viz.color}`}>
-                      {viz.title.toUpperCase()}
+                    <h3 className={`text-lg font-bold ${viz.color}`}>
+                      {viz.title}
                     </h3>
-                    <p className="text-sm opacity-70">{viz.subtitle}</p>
+                    <p className="text-xs opacity-70">{viz.subtitle}</p>
                   </div>
                 </div>
-                <div className="text-sm opacity-70">
-                  CLICK TO EXPAND
+                <div className="text-xs opacity-70">
+                  EXPAND
                 </div>
               </div>
               
               {/* Image Container */}
-              <div className="relative h-64 bg-black bg-opacity-50 flex items-center justify-center">
+              <div className="relative h-48 bg-black bg-opacity-50 flex items-center justify-center">
                 {loadingStates[viz.id] === 'error' ? (
                   <div className="text-center">
-                    <div className="text-4xl mb-2">⚠</div>
-                    <p className="text-red-400 font-bold">IMAGE FAILED TO LOAD</p>
-                    <p className="text-xs opacity-70 mt-1">GF_Degree.png</p>
+                    <div className="text-3xl mb-2">⚠</div>
+                    <p className="text-red-400 font-bold text-sm">LOAD FAILED</p>
+                    <p className="text-xs opacity-70 mt-1">Graph {index + 1}</p>
                   </div>
                 ) : (
                   <>
@@ -184,8 +217,8 @@ const DataPage = () => {
                     {loadingStates[viz.id] !== false && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="text-center">
-                          <div className="animate-spin text-2xl mb-2">⟳</div>
-                          <p className={`${viz.color} font-bold`}>LOADING...</p>
+                          <div className="animate-spin text-xl mb-1">⟳</div>
+                          <p className={`${viz.color} font-bold text-sm`}>LOADING...</p>
                         </div>
                       </div>
                     )}
@@ -194,18 +227,18 @@ const DataPage = () => {
                 
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-all flex items-center justify-center opacity-0 hover:opacity-100">
-                  <span className="text-white font-bold text-lg">▶ VIEW DETAILS</span>
+                  <span className="text-white font-bold text-sm">▶ VIEW DETAILS</span>
                 </div>
               </div>
               
               {/* Stats Footer */}
-              <div className="p-4 border-t border-current bg-black bg-opacity-30">
-                <p className="text-sm mb-3 opacity-90">{viz.description}</p>
-                <div className="flex justify-between text-xs">
+              <div className="p-3 border-t border-current bg-black bg-opacity-30">
+                <p className="text-xs mb-2 opacity-90 leading-tight">{viz.description}</p>
+                <div className="grid grid-cols-3 gap-2 text-xs">
                   {Object.entries(viz.stats).map(([key, value]) => (
                     <div key={key} className="text-center">
-                      <div className={`font-bold ${viz.color}`}>{value}</div>
-                      <div className="opacity-70">{key.toUpperCase()}</div>
+                      <div className={`font-bold ${viz.color} text-xs`}>{value}</div>
+                      <div className="opacity-70 text-xs">{key.toUpperCase()}</div>
                     </div>
                   ))}
                 </div>
@@ -214,24 +247,73 @@ const DataPage = () => {
           ))}
         </div>
         
+        {/* Analysis Categories */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="border border-current p-6 bg-black bg-opacity-30">
+            <h3 className="text-xl font-bold mb-4 flex items-center">
+              <span className="text-blue-400 mr-3">📊</span>
+              CORRELATION ANALYSIS
+            </h3>
+            <div className="space-y-3">
+              <div className="border-l-4 border-cyan-400 pl-4 py-2">
+                <div className="font-bold text-cyan-400 text-sm">IMDB vs Sentiment</div>
+                <div className="text-xs opacity-80">Rating correlation with emotional tone</div>
+              </div>
+              <div className="border-l-4 border-yellow-400 pl-4 py-2">
+                <div className="font-bold text-yellow-400 text-sm">IMDB vs Degree</div>
+                <div className="text-xs opacity-80">Connection impact on viewer ratings</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="border border-current p-6 bg-black bg-opacity-30">
+            <h3 className="text-xl font-bold mb-4 flex items-center">
+              <span className="text-purple-400 mr-3">🕸️</span>
+              NETWORK CENTRALITY
+            </h3>
+            <div className="space-y-3">
+              <div className="border-l-4 border-green-400 pl-4 py-2">
+                <div className="font-bold text-green-400 text-sm">Eigenvector Centrality</div>
+                <div className="text-xs opacity-80">Influence within the network</div>
+              </div>
+              <div className="border-l-4 border-purple-400 pl-4 py-2">
+                <div className="font-bold text-purple-400 text-sm">Betweenness Centrality</div>
+                <div className="text-xs opacity-80">Bridge episodes in narrative flow</div>
+              </div>
+              <div className="border-l-4 border-red-400 pl-4 py-2">
+                <div className="font-bold text-red-400 text-sm">Reverse Degree</div>
+                <div className="text-xs opacity-80">Standalone episode identification</div>
+              </div>
+              <div className="border-l-4 border-orange-400 pl-4 py-2">
+                <div className="font-bold text-orange-400 text-sm">Out-Degree Analysis</div>
+                <div className="text-xs opacity-80">Foreshadowing hub episodes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         {/* Data Summary */}
         <div className="border border-current p-8 bg-black bg-opacity-30">
           <h2 className="text-2xl font-bold mb-6 flex items-center">
-            <span className="text-blue-400 mr-3">&gt;&gt;</span>
+            <span className="text-green-400 mr-3">&gt;&gt;</span>
             DATASET SUMMARY
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="border border-cyan-400 p-6 bg-cyan-900 bg-opacity-20 rounded text-center">
-              <div className="text-3xl font-bold text-cyan-400 mb-2">40</div>
-              <div className="text-sm">EPISODES ANALYZED</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="border border-cyan-400 p-4 bg-cyan-900 bg-opacity-20 rounded text-center">
+              <div className="text-2xl font-bold text-cyan-400 mb-1">40</div>
+              <div className="text-xs">EPISODES</div>
             </div>
-            <div className="border border-yellow-400 p-6 bg-yellow-900 bg-opacity-20 rounded text-center">
-              <div className="text-3xl font-bold text-yellow-400 mb-2">157</div>
-              <div className="text-sm">CONNECTIONS MAPPED</div>
+            <div className="border border-yellow-400 p-4 bg-yellow-900 bg-opacity-20 rounded text-center">
+              <div className="text-2xl font-bold text-yellow-400 mb-1">157</div>
+              <div className="text-xs">CONNECTIONS</div>
             </div>
-            <div className="border border-green-400 p-6 bg-green-900 bg-opacity-20 rounded text-center">
-              <div className="text-3xl font-bold text-green-400 mb-2">4</div>
-              <div className="text-sm">ANALYSIS DIMENSIONS</div>
+            <div className="border border-green-400 p-4 bg-green-900 bg-opacity-20 rounded text-center">
+              <div className="text-2xl font-bold text-green-400 mb-1">6</div>
+              <div className="text-xs">VISUALIZATIONS</div>
+            </div>
+            <div className="border border-purple-400 p-4 bg-purple-900 bg-opacity-20 rounded text-center">
+              <div className="text-2xl font-bold text-purple-400 mb-1">4</div>
+              <div className="text-xs">METRICS</div>
             </div>
           </div>
         </div>
@@ -240,7 +322,7 @@ const DataPage = () => {
         <div className="text-center py-8">
           <div className="inline-flex items-center space-x-4 border-2 border-green-400 px-8 py-4 bg-green-900 bg-opacity-20 rounded-lg">
             <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-lg font-mono font-bold">DATA VISUALIZATION COMPLETE</span>
+            <span className="text-lg font-mono font-bold">COMPREHENSIVE DATA ANALYSIS COMPLETE</span>
             <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
           </div>
         </div>

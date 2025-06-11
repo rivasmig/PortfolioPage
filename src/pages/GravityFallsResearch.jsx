@@ -113,7 +113,7 @@ const GravityFallsResearch = () => {
       />
       
       <TextContainer3D
-        position={[0, 1.8, 0]}
+        position={[0, 2, -0.5]}
         text="BY: GEORDYN, CAM, ZARIAN, AND MIGUEL"
         fontSize={0.2}
         color="#39ff14"
@@ -129,7 +129,7 @@ const GravityFallsResearch = () => {
       
       {/* Corner markers for reference */}
       <TextContainer3D
-        position={[-3.2, 1.5, 0]}
+        position={[-3.2, 1.5, 1]}
         text="HYPOTHESIS"
         fontSize={0.15}
         color="#39ff14"
@@ -138,7 +138,7 @@ const GravityFallsResearch = () => {
       />
       
       <TextContainer3D
-        position={[3.2, 1.5, 0]}
+        position={[3.2, 1.5, 1]}
         text="BACKGROUND"
         fontSize={0.15}
         color="#39ff14"
@@ -147,7 +147,7 @@ const GravityFallsResearch = () => {
       />
       
       <TextContainer3D
-        position={[-3.2, -1.5, 0]}
+        position={[-3.2, -1.5, 1]}
         text="DATA"
         fontSize={0.15}
         color="#39ff14"
@@ -156,7 +156,7 @@ const GravityFallsResearch = () => {
       />
       
       <TextContainer3D
-        position={[3.2, -1.5, 0]}
+        position={[3.2, -1.5, 1]}
         text="DISCUSSION"
         fontSize={0.15}
         color="#39ff14"
@@ -165,7 +165,7 @@ const GravityFallsResearch = () => {
       />
       
       <TextContainer3D
-        position={[0, -0.8, 0]}
+        position={[0, -0.8, 1.4]}
         text="METHODS"
         fontSize={0.15}
         color="#00ff41"

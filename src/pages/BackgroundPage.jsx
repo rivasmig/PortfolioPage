@@ -39,7 +39,7 @@ const BackgroundPage = () => {
     },
     {
       id: 'bill',
-      src: '/GravityFallsResearchAssets/coolBillPic.jpg',
+      src: 'https://i.ibb.co/LDsQDXhc/cool-Bill-Pic.jpg',
       alt: 'Bill Cipher mysteries',
       credit: 'Image credit: vrogue.co',
       description: 'Cryptographic elements and mystery symbols from the series'
