@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useTheme } from '../../hooks/useTheme.jsx';
+import { useTheme } from '../../../hooks/useTheme.jsx';
 
 // Mobile detection
 const useIsMobile = () => {

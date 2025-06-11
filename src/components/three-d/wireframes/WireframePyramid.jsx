@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import WireframeComponent from './WireframeComponent';
+import WireframeComponent from '../base/WireframeComponent';
 import * as THREE from 'three';
 
 /**

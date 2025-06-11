@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useTheme } from '../../hooks/useTheme.jsx';
+import { useTheme } from '../../../hooks/useTheme.jsx';
 
 /**
  * WireframeComponent - Simple, stable wireframe with glow
