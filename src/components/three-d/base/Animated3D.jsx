@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import Base3DComponent from 'Base3DComponent';
+import Base3DComponent from './Base3DComponent';
 
 /**
  * Animated3D - Enhanced base class for animated 3D elements

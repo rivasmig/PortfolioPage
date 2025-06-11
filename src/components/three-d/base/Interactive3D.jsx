@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import Base3DComponent from 'Base3DComponent';
+import Base3DComponent from './Base3DComponent';
 
 /**
  * Interactive3D - Enhanced base class for interactive 3D elements

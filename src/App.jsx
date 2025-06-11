@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import ThreeCanvas from './components/layout/ThreeCanvas';
 
 // Primitives
-import PyramidComponent from './components/three-d/PyramidComponent';
+import PyramidComponent from './components/three-d/primitives/PyramidComponent';
 import CubeComponent from './components/three-d/primitives/CubeComponent';
 import SphereComponent from './components/three-d/primitives/SphereComponent';
 import PlaneComponent from './components/three-d/primitives/PlaneComponent';
 
 // Wireframes
-import WireframePyramid from './components/three-d/WireframePyramid';
-import WireframeCube from './components/three-d/WireframeCube';
-import WireframeSphere from './components/three-d/WireframeSphere';
-import WireframePlane from './components/three-d/WireframePlane';
+import WireframePyramid from './components/three-d/wireframes/WireframePyramid';
+import WireframeCube from './components/three-d/wireframes/WireframeCube';
+import WireframeSphere from './components/three-d/wireframes/WireframeSphere';
+import WireframePlane from './components/three-d/wireframes/WireframePlane';
 
 // Enhanced bases
 import Interactive3D from './components/three-d/base/Interactive3D';

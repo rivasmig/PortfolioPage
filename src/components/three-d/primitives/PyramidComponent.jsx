@@ -1,5 +1,5 @@
 import React from 'react';
-import Base3DComponent from './base/Base3DComponent';
+import Base3DComponent from '../base/Base3DComponent';
 
 /**
  * PyramidComponent - A 3D pyramid that inherits from Base3DComponent
