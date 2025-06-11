@@ -23,7 +23,7 @@ const DataPage = () => {
       title: 'IMDB vs Sentiment',
       subtitle: 'Rating Correlation',
       description: 'IMDB episode ratings plotted against average sentiment scores (AFINN) to analyze viewer reception patterns',
-      imagePath: 'https://i.ibb.co/xth0SCDF/GF-Further-Analysis2.png',
+      imagePath: 'https://i.ibb.co/9MHvGg9/a409bb8c-a0ff-416f-837c-c36d948ee5de.png',
       icon: '📊',
       color: 'text-cyan-400',
       bgColor: 'bg-cyan-900 bg-opacity-20',
