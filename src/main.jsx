@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom'; // ✅ Swap BrowserRouter → HashRouter
 import AppRouter from './Router.jsx';
 
 // Theme engine and themes
@@ -12,16 +12,16 @@ import gravityFalls from './content/themes/gravity-falls';
 // Global styles
 import './styles/globals.css';
 
-// Register themes before rendering
+// Register themes
 themeEngine.registerTheme('frutiger-aero', frutigerAero);
 themeEngine.registerTheme('minimal', minimal);
 themeEngine.registerTheme('gravity-falls', gravityFalls);
 
-// React DOM render with basename for GitHub Pages
+// Render the app
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/PortfolioPage">
+    <HashRouter>
       <AppRouter />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
