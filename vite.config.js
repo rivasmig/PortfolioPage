@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/', // 👈 This MUST match your GitHub repo name
+  base: '/PortfolioPage/', // 👈 This MUST match your GitHub repo name
   build: {
     outDir: 'dist',
   },
