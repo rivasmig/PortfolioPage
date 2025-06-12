@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PageWrapper from '../components/content/PageWrapper';
-import { useTheme } from '../hooks/useTheme';
+import PageWrapper from '../../components/content/PageWrapper';
+import { useTheme } from '../../hooks/useTheme';
 
 // Import 3D components
-import TextContainer3D from '../components/three-d/containers/TextContainer3D';
-import Interactive3D from '../components/three-d/base/Interactive3D';
+import TextContainer3D from '../../components/three-d/containers/TextContainer3D';
+import Interactive3D from '../../components/three-d/base/Interactive3D';
 
 /**
  * Gravity Falls Research Page - Navigation Interface
@@ -21,10 +21,10 @@ const GravityFallsResearch = () => {
   }, [setTheme]);
   
   // Handle shape clicks - navigate to individual pages
-  const handleShapeClick = (section) => {
-    navigate(`./${section}`);
+  const handleShapeClick = (slug) => {
+    navigate(`./${slug}`);
   };
-  
+
   // 3D Scene with interactive navigation shapes
   const backgroundElements = (
     <>
@@ -34,7 +34,7 @@ const GravityFallsResearch = () => {
         rotation={[Math.PI, 0, 0]} // Upside down
         color="#00ff41"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('MethodsPage')}
+        onClick={() => handleShapeClick('methods')}
         hoverScale={1.1}
         springiness={0.1}
       >
@@ -46,7 +46,7 @@ const GravityFallsResearch = () => {
         position={[-2.5, 1.5, 0]}
         color="#39ff14"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('HypothesisPage')}
+        onClick={() => handleShapeClick('hypothesis')}
         hoverScale={1.2}
         springiness={0.1}
         animated={true}
@@ -61,7 +61,7 @@ const GravityFallsResearch = () => {
         position={[2.5, 1.5, 0]}
         color="#39ff14"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('BackgroundPage')}
+        onClick={() => handleShapeClick('background')}
         hoverScale={1.2}
         springiness={0.1}
         animated={true}
@@ -76,7 +76,7 @@ const GravityFallsResearch = () => {
         position={[-2.5, -1.5, 0]}
         color="#39ff14"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('DataPage')}
+        onClick={() => handleShapeClick('data')}
         hoverScale={1.2}
         springiness={0.1}
         animated={true}
@@ -91,7 +91,7 @@ const GravityFallsResearch = () => {
         position={[2.5, -1.5, 0]}
         color="#39ff14"
         hoverColor="#ffff00"
-        onClick={() => handleShapeClick('DiscussionPage')}
+        onClick={() => handleShapeClick('discussion')}
         hoverScale={1.2}
         springiness={0.1}
         animated={true}
