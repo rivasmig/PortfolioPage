@@ -1,6 +1,6 @@
 // Router.jsx
 import React, { useEffect, useState, Suspense } from 'react';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
 
 import LandingPage from './pages/LandingPage';
@@ -28,8 +28,10 @@ function MDXLoader() {
   );
 }
 
-// Error component using your theme system
+// Error component using your theme system with React Router navigation
 function MDXError({ slug, type }) {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-background)' }}>
       <div className="theme-ui-panel text-center">
@@ -39,36 +41,38 @@ function MDXError({ slug, type }) {
           The {type} "{slug}" doesn't exist or couldn't be loaded.
         </p>
         <div className="space-x-4">
-          <a
-            href={type === 'project' ? '/#/gallery' : '/#/interests'}
+          <button
+            onClick={() => navigate(type === 'project' ? '/gallery' : '/interests')}
             className="theme-button inline-block px-6 py-2 rounded-lg transition-colors"
           >
             Back to {type === 'project' ? 'Gallery' : 'Interests'}
-          </a>
-          <a
-            href="/#/"
+          </button>
+          <button
+            onClick={() => navigate('/')}
             className="theme-button inline-block px-6 py-2 rounded-lg transition-colors"
           >
             Go Home
-          </a>
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-// Navigation component for MDX pages
+// Navigation component for MDX pages with React Router navigation
 function MDXNavigation({ type, slug }) {
+  const navigate = useNavigate();
+
   return (
     <div className="mb-6">
-      <a
-        href={type === 'projects' ? '/#/gallery' : '/#/interests'}
+      <button
+        onClick={() => navigate(type === 'projects' ? '/gallery' : '/interests')}
         className="theme-button inline-flex items-center px-4 py-2 text-sm rounded-lg transition-colors"
         style={{ textDecoration: 'none' }}
       >
         <span className="mr-2">←</span>
         Back to {type === 'projects' ? 'Gallery' : 'Interests'}
-      </a>
+      </button>
     </div>
   );
 }
@@ -129,19 +133,40 @@ function DynamicMDXPage({ type }) {
       />
     ),
     
-    // Example: Custom link styling
-    a: (props) => (
-      <a 
-        {...props} 
-        style={{ 
-          color: 'var(--color-primary)', 
-          textDecoration: 'none',
-          ...props.style 
-        }}
-        onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
-        onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
-      />
-    )
+    // Example: Custom link styling with external link handling
+    a: (props) => {
+      // If it's an external link, use regular anchor tag
+      if (props.href && (props.href.startsWith('http') || props.href.startsWith('mailto'))) {
+        return (
+          <a 
+            {...props} 
+            style={{ 
+              color: 'var(--color-primary)', 
+              textDecoration: 'none',
+              ...props.style 
+            }}
+            onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+            onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+        );
+      }
+      
+      // For internal links, you could use navigate here if needed
+      return (
+        <a 
+          {...props} 
+          style={{ 
+            color: 'var(--color-primary)', 
+            textDecoration: 'none',
+            ...props.style 
+          }}
+          onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+          onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+        />
+      );
+    }
   };
 
   return (

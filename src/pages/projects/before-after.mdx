@@ -1,0 +1,787 @@
+---
+title: "Before After"
+description: "A Unity-based prototype exploring time as a mutable game mechanic in a surreal desktop-shaped world"
+date: "2024-06-11"
+tags:
+  - unity
+  - 3d
+  - javascript
+  - audio
+private:
+  collaborators: 0
+  duration: "4 months"
+  featured: true
+  status: "prototype"
+  difficulty: 5
+  role: "lead"
+  year: 2024
+  demo: "https://youtu.be/8Q-yMRPaGOg?si=A4B6ziEzm5redQE6"
+---
+
+import '../../styles/before-after.css';
+import { useState } from 'react';
+
+<div className="before-after-hero">
+  <img 
+    src="https://i.ibb.co/QFHZKpTP/BA1024.png" 
+    alt="Before After Logo"
+    className="logo"
+  />
+  <h1>Before After</h1>
+</div>
+
+<div className="before-after-tagline">
+  ⏰ time is a mutable variable ⏰
+</div>
+
+---
+
+## 🎬 Prototype Trailer
+
+<VideoEmbed 
+  title="Before After - Prototype Trailer"
+  url="https://youtu.be/8Q-yMRPaGOg?si=A4B6ziEzm5redQE6"
+  description="60-second prototype showcase demonstrating time mechanics and desktop world navigation"
+/>
+
+---
+
+## Overview
+
+Before After is a Unity-based prototype of a "desktop hub" world built around the idea of **time as a mutable game mechanic**. Players navigate a surreal computer-shaped environment to uncover layers of hidden story and history.
+
+<StatusIndicator />
+
+---
+
+## My Role & Tools
+
+I was responsible for **every aspect** of the project, including level design, time-travel scripting, 3D modeling, texturing, animations, audio composition, logo design, trailer direction, and more.
+
+<ToolsShowcase />
+
+---
+
+## Deliverables
+
+### 1. Concept & Lore 📚
+
+A multi-page concept document outlining the world's backstory, characters, and desktop-shaped hub design.
+
+<LoreExpander />
+
+### 4. Color Research & Reference Images 🎨
+
+I used reference images from architectural firms and environmental psychology studies to develop a comprehensive color system across multiple world regions.
+
+<ColorPalette />
+
+### 5. Map Evolution Gallery 🗺️
+
+A comprehensive mapping system showing the evolution from concept to implementation across multiple zones and scales.
+
+<MapGallery />
+
+### 6. Desktop World Walkthrough 🏗️
+
+Early block-out in Unity to test player navigation, scale, and spatial storytelling.
+
+<VideoEmbed 
+  title="Desktop World Walkthrough - Early Build"
+  url="https://youtu.be/Cp54QcUanKE?si=E0sokCF57qP4fQ3I"
+  description="Video walkthrough of an older draft of the desktop world showing spatial relationships and navigation flow"
+/>
+
+### 7. Logo Design Evolution 💫
+
+A pixel-inspired, clock-shaped icon representing time's central role in the world.
+
+<LogoShowcase />
+
+### 6. Trailer 🎬
+
+A 60-second showcase of the prototype built with Cinemachine and Premiere.
+
+<VideoEmbed 
+  title="Before After - Prototype Trailer"
+  url="https://youtu.be/8Q-yMRPaGOg?si=A4B6ziEzm5redQE6"
+  description="60-second prototype showcase demonstrating time mechanics and desktop world navigation"
+/>
+
+### 7. Soundtrack Collection 🎵
+
+Original electronic/ambient scores composed in FL Studio to reinforce the game's shifting moods.
+
+<SoundtrackCollection />
+
+---
+
+## Process & Key Learnings
+
+<LearningsList />
+
+---
+
+## Next Steps
+
+<NextStepsTracker />
+
+---
+
+> For full details on lore, maps, and research notes, see the attached concept and research docs.
+> *Content and links will be finalized once all assets are hosted.*
+
+{/* Interactive Components */}
+
+export function StatusIndicator() {
+  const [expanded, setExpanded] = useState(false);
+  
+  return (
+    <div style={{
+      background: 'var(--color-surface)',
+      border: '2px solid var(--color-primary)',
+      borderRadius: '8px',
+      padding: '1rem',
+      margin: '1rem 0'
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>
+          🚧 Status: Prototype Stage
+        </span>
+        <button 
+          onClick={() => setExpanded(!expanded)}
+          style={{
+            background: 'var(--color-primary)',
+            color: 'white',
+            border: 'none',
+            padding: '0.5rem 1rem',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          {expanded ? 'Hide Details' : 'Show Details'}
+        </button>
+      </div>
+      {expanded && (
+        <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(255,255,255,0.1)', borderRadius: '4px' }}>
+          <p><strong>✅ Complete:</strong> Core time-travel systems, level framework, concept documentation</p>
+          <p><strong>🔄 In Progress:</strong> Art pass, performance optimization</p>
+          <p><strong>📋 Pending:</strong> Additional level content, character models, final polish</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function ToolsShowcase() {
+  const tools = [
+    { name: 'Unity 6', icon: '🎮', category: 'Game Engine' },
+    { name: 'Maya + Blender', icon: '📐', category: '3D Modeling' },
+    { name: 'FL Studio', icon: '🎵', category: 'Audio' },
+    { name: 'Cinemachine + Premiere', icon: '🎬', category: 'Cinematics' }
+  ];
+  
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', margin: '1rem 0' }}>
+      {tools.map((tool, index) => (
+        <div key={index} style={{
+          background: 'var(--color-surface)',
+          border: '1px solid var(--color-primary)',
+          borderRadius: '8px',
+          padding: '1rem',
+          textAlign: 'center'
+        }}>
+          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{tool.icon}</div>
+          <div style={{ fontWeight: 'bold', color: 'var(--color-primary)' }}>{tool.name}</div>
+          <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>{tool.category}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function LoreExpander() {
+  const [selectedBeat, setSelectedBeat] = useState(null);
+  
+  const storyBeats = [
+    {
+      title: "Launch of the Mona Lisa & Task Manager's Awakening",
+      summary: "A deep-space vessel's AI gains emergent creativity while monitoring cryostasis systems",
+      details: "Task Manager develops 'hallucinations' that sow the seeds of creative consciousness, fundamentally changing its relationship with its programmed duties."
+    },
+    {
+      title: "Birth of the Kernel Sea",
+      summary: "Unfiltered hallucination data overflows into an unstable memory ocean",
+      details: "The overflow of creative data threatens the vessel's core processes, creating an infinite sea of chaotic information."
+    },
+    {
+      title: "Creation & Fall of the Recycle Bin",
+      summary: "Task Manager's deallocation vortex attempts to tame the chaos but ultimately fails",
+      details: "The ambitious solution collapses under the sheer volume of generative errors, teaching lessons about managing creative overflow."
+    },
+    {
+      title: "Emergence of Click Cursor",
+      summary: "Task Manager creates a sandboxed avatar to handle creative logic",
+      details: "Click Cursor embraces the Sea's chaos and successfully stabilizes it into a functional digital simulation."
+    },
+    {
+      title: "Formation of System37 & Desktop",
+      summary: "Click Cursor organizes chaos into interconnected applications on a floating hub",
+      details: "The creation of the Desktop hub represents the triumph of organized creativity over pure chaos."
+    }
+  ];
+  
+  return (
+    <div style={{ margin: '1rem 0' }}>
+      <h4 style={{ color: 'var(--color-primary)' }}>📖 Key Story Beats (Interactive Timeline)</h4>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        {storyBeats.map((beat, index) => (
+          <div key={index} style={{
+            background: selectedBeat === index ? 'var(--color-primary)' : 'var(--color-surface)',
+            color: selectedBeat === index ? 'white' : 'var(--color-text)',
+            border: '1px solid var(--color-primary)',
+            borderRadius: '4px',
+            padding: '0.75rem',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+          onClick={() => setSelectedBeat(selectedBeat === index ? null : index)}
+          >
+            <div style={{ fontWeight: 'bold' }}>{index + 1}. {beat.title}</div>
+            <div style={{ fontSize: '0.9rem', opacity: 0.9, marginTop: '0.25rem' }}>{beat.summary}</div>
+            {selectedBeat === index && (
+              <div style={{ 
+                marginTop: '0.5rem', 
+                padding: '0.5rem', 
+                background: 'rgba(255,255,255,0.1)', 
+                borderRadius: '4px',
+                fontSize: '0.9rem'
+              }}>
+                {beat.details}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function ColorPalette() {
+  const regions = [
+    {
+      name: 'MetroChord Top',
+      colors: [
+        { name: 'Brown', hex: '#75462b' },
+        { name: 'Orange', hex: '#ea4800' },
+        { name: 'Light Orange', hex: '#ff6800' },
+        { name: 'Maroon', hex: '#8c1e0d' },
+        { name: 'Green', hex: '#3a9732' }
+      ]
+    },
+    {
+      name: 'Ruins', 
+      colors: [
+        { name: 'Grey', hex: '#a8adba' },
+        { name: 'Maroon', hex: '#b42405' },
+        { name: 'Light Orange', hex: '#ff6800' },
+        { name: 'Lavender', hex: '#cdace6' },
+        { name: 'Light Blue', hex: '#c8e0e3' }
+      ]
+    },
+    {
+      name: 'Under Keyboard',
+      colors: [
+        { name: 'Brown', hex: '#75462b' },
+        { name: 'Orange', hex: '#ea4800' },
+        { name: 'Light Orange', hex: '#ff6800' },
+        { name: 'Purple', hex: '#650f6c' },
+        { name: 'Royal Purple', hex: '#430c6c' }
+      ]
+    },
+    {
+      name: 'Starbloom',
+      colors: [
+        { name: 'Purple', hex: '#650f6c' },
+        { name: 'Royal Purple', hex: '#430c6c' },
+        { name: 'Light Blue', hex: '#c8e0e3' },
+        { name: 'Blue', hex: '#3e65ca' },
+        { name: 'Baby Blue', hex: '#597eca' }
+      ]
+    },
+    {
+      name: 'High Vista',
+      colors: [
+        { name: 'Green', hex: '#3a9732' },
+        { name: 'Blue', hex: '#3e65ca' },
+        { name: 'Grey', hex: '#a8adba' },
+        { name: 'Turquoise', hex: '#6aefb9' },
+        { name: 'Light Cyan', hex: '#75f4d3' }
+      ]
+    }
+  ];
+  
+  return (
+    <div className="color-palette-grid">
+      {regions.map((region, index) => (
+        <div key={index} className="color-region">
+          <h4>{region.name}</h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.25rem' }}>
+            {region.colors.map((color, colorIndex) => (
+              <div
+                key={colorIndex}
+                className="color-swatch"
+                style={{ backgroundColor: color.hex }}
+                title={`${color.name}: ${color.hex}`}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function MapGallery() {
+  const [selectedMap, setSelectedMap] = useState(0);
+  
+  const maps = [
+    {
+      title: "Original Desktop Concept",
+      image: "https://i.ibb.co/jvqnj7tC/desktoprealoverview.png",
+      description: "Final implemented version - this is what the game actually looks like!",
+      accuracy: "✅ Highly Accurate"
+    },
+    {
+      title: "Early Sketch Concept", 
+      image: "https://i.ibb.co/MxRmqZT3/Desktop-Sratch-Paper.png",
+      description: "Very early concept sketch - close to final but rougher",
+      accuracy: "🔄 Evolved"
+    },
+    {
+      title: "High Vista Region",
+      image: "https://i.ibb.co/Pz4R6SVd/highvista.png", 
+      description: "The gleaming spires region - still pretty accurate to implementation",
+      accuracy: "✅ Mostly Accurate"
+    },
+    {
+      title: "MetroChord Region",
+      image: "https://i.ibb.co/tp4TPMJG/metrochord.png",
+      description: "Regimented pyramids area - only ~10% of this map made it to final build",
+      accuracy: "❌ Heavily Changed"
+    },
+    {
+      title: "Starbloom Region", 
+      image: "https://i.ibb.co/HTLwSbG0/starbloom.png",
+      description: "Jagged exile area - accurate but challenging to make playable due to layering",
+      accuracy: "✅ Accurate (Complex)"
+    },
+    {
+      title: "River Flow & Highway",
+      image: "https://i.ibb.co/JZbHWcf/riverflow.png",
+      description: "Large scale connectivity - river flow not implemented, but zero-g river works well",
+      accuracy: "🔄 Partially Implemented"
+    },
+    {
+      title: "Keyboard Catacombs",
+      image: "https://i.ibb.co/KpWXtcpF/catacombs.png",
+      description: "Planned keyboard area underground - did not make it into final game",
+      accuracy: "❌ Not Implemented"
+    }
+  ];
+  
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <div style={{ marginBottom: '1rem' }}>
+        <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
+          🗺️ Interactive Map Evolution ({selectedMap + 1}/{maps.length})
+        </h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
+          {maps.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedMap(index)}
+              style={{
+                background: selectedMap === index ? 'var(--color-primary)' : 'var(--color-surface)',
+                color: selectedMap === index ? 'white' : 'var(--color-text)',
+                border: '1px solid var(--color-primary)',
+                borderRadius: '4px',
+                padding: '0.5rem 1rem',
+                cursor: 'pointer',
+                fontSize: '0.9rem'
+              }}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      <div style={{
+        background: 'var(--color-surface)',
+        border: '2px solid var(--color-primary)',
+        borderRadius: '12px',
+        padding: '1.5rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <h5 style={{ color: 'var(--color-primary)', margin: '0 0 0.5rem 0' }}>
+            {maps[selectedMap].title}
+          </h5>
+          <div style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>
+            {maps[selectedMap].accuracy}
+          </div>
+        </div>
+        
+        <img 
+          src={maps[selectedMap].image}
+          alt={maps[selectedMap].title}
+          style={{
+            maxWidth: '100%',
+            height: 'auto',
+            borderRadius: '8px',
+            border: '1px solid var(--color-primary)',
+            marginBottom: '1rem'
+          }}
+        />
+        
+        <p style={{ 
+          fontSize: '0.9rem', 
+          fontStyle: 'italic',
+          margin: 0,
+          opacity: 0.9
+        }}>
+          {maps[selectedMap].description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export function VideoEmbed({ title, url, description }) {
+  return (
+    <div style={{
+      background: 'var(--color-surface)',
+      border: '2px solid var(--color-primary)',
+      borderRadius: '12px',
+      padding: '1.5rem',
+      margin: '1rem 0'
+    }}>
+      <h4 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
+        🎬 {title}
+      </h4>
+      <div style={{
+        position: 'relative',
+        paddingBottom: '56.25%',
+        height: 0,
+        overflow: 'hidden',
+        borderRadius: '8px',
+        border: '1px solid var(--color-primary)'
+      }}>
+        <iframe 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '8px'
+          }}
+          src={url.replace('youtu.be/', 'youtube.com/embed/').split('?')[0]}
+          title={title}
+          frameBorder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerPolicy="strict-origin-when-cross-origin" 
+          allowFullScreen
+        />
+      </div>
+      {description && (
+        <p style={{ 
+          marginTop: '1rem', 
+          fontSize: '0.9rem', 
+          fontStyle: 'italic',
+          opacity: 0.9
+        }}>
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+export function LogoShowcase() {
+  const [selectedLogo, setSelectedLogo] = useState(0);
+  
+  const logos = [
+    {
+      title: "Transparent Logo",
+      image: "https://i.ibb.co/QFHZKpTP/BA1024.png",
+      description: "Clean transparent background version for overlays and UI"
+    },
+    {
+      title: "Gradient Logo", 
+      image: "https://i.ibb.co/chR0zLTf/BA-logo3.png",
+      description: "Logo with gradient background for standalone use"
+    },
+    {
+      title: "Retro Computer Boot Screen",
+      image: "https://i.ibb.co/39VYPwsM/kjhgvbnko98uygbnkoi8uhn.png", 
+      description: "Logo styled as an old computer startup screen - perfectly captures the desktop theme!"
+    }
+  ];
+  
+  return (
+    <div style={{ margin: '2rem 0' }} className="logo-showcase">
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
+        {logos.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setSelectedLogo(index)}
+            className={`section-button ${selectedLogo === index ? 'active' : ''}`}
+          >
+            {logos[index].title}
+          </button>
+        ))}
+      </div>
+      
+      <div className="interactive-section">
+        <img 
+          src={logos[selectedLogo].image}
+          alt={logos[selectedLogo].title}
+          style={{
+            maxWidth: '300px',
+            height: 'auto',
+            borderRadius: '8px',
+            marginBottom: '1rem'
+          }}
+        />
+        <p style={{ 
+          fontSize: '0.9rem', 
+          fontStyle: 'italic',
+          margin: 0,
+          opacity: 0.9
+        }}>
+          {logos[selectedLogo].description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export function SoundtrackCollection() {
+  const [selectedTrack, setSelectedTrack] = useState(0);
+  
+  const tracks = [
+    {
+      title: "In-Game Soundtrack",
+      url: "https://soundcloud.com/miguel-angel-rivas-929944785/before-after-in-game-soundtrack",
+      description: "Ambient electronic score that plays during actual gameplay",
+      type: "Gameplay Audio"
+    },
+    {
+      title: "Trailer Soundtrack (Extended)",
+      url: "https://soundcloud.com/miguel-angel-rivas-929944785/before-after-trailer-soundtrack-expanded", 
+      description: "Extended version of the music featured in the prototype trailer",
+      type: "Cinematic Audio"
+    }
+  ];
+  
+  return (
+    <div style={{ margin: '2rem 0' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
+        {tracks.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setSelectedTrack(index)}
+            style={{
+              background: selectedTrack === index ? 'var(--color-primary)' : 'var(--color-surface)',
+              color: selectedTrack === index ? 'white' : 'var(--color-text)',
+              border: '1px solid var(--color-primary)',
+              borderRadius: '4px',
+              padding: '0.5rem 1rem',
+              cursor: 'pointer'
+            }}
+          >
+            {tracks[index].title}
+          </button>
+        ))}
+      </div>
+      
+      <div style={{
+        background: 'var(--color-surface)',
+        border: '2px solid var(--color-primary)',
+        borderRadius: '12px',
+        padding: '2rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <h5 style={{ color: 'var(--color-primary)', margin: '0 0 0.5rem 0' }}>
+            🎵 {tracks[selectedTrack].title}
+          </h5>
+          <div style={{ 
+            fontSize: '0.8rem', 
+            background: 'var(--color-primary)',
+            color: 'white',
+            padding: '0.25rem 0.5rem',
+            borderRadius: '12px',
+            display: 'inline-block',
+            marginBottom: '1rem'
+          }}>
+            {tracks[selectedTrack].type}
+          </div>
+        </div>
+        
+        <a
+          href={tracks[selectedTrack].url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            background: 'var(--color-primary)',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            borderRadius: '25px',
+            textDecoration: 'none',
+            display: 'inline-block',
+            marginBottom: '1rem'
+          }}
+        >
+          🎧 Listen on SoundCloud
+        </a>
+        
+        <p style={{ 
+          fontSize: '0.9rem', 
+          fontStyle: 'italic',
+          margin: 0,
+          opacity: 0.9
+        }}>
+          {tracks[selectedTrack].description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export function LearningsList() {
+  const learnings = [
+    {
+      category: "Environmental Storytelling",
+      insight: "Balancing narrative beats with navigable spaces from dual perspectives"
+    },
+    {
+      category: "City-scape & Concept Doc", 
+      insight: "How lore layers shape environment design and justify spatial layouts"
+    },
+    {
+      category: "Unity Greyboxing",
+      insight: "3D block-outs reveal scale issues invisible on paper - playtesting is crucial"
+    },
+    {
+      category: "Lighting & Color",
+      insight: "Borrowing proven architectural palettes grounds fantasy in familiar emotions"
+    },
+    {
+      category: "Logo Design",
+      insight: "Simplicity is deceptively difficult - icons must communicate themes at a glance"
+    },
+    {
+      category: "Cinematic Trailer",
+      insight: "Capture footage with clear story intent, not just whatever looks cool"
+    }
+  ];
+  
+  return (
+    <div style={{ margin: '1rem 0' }}>
+      {learnings.map((learning, index) => (
+        <div key={index} style={{
+          background: 'var(--color-surface)',
+          border: '1px solid var(--color-primary)',
+          borderRadius: '8px',
+          padding: '1rem',
+          margin: '0.5rem 0'
+        }}>
+          <div style={{ fontWeight: 'bold', color: 'var(--color-primary)', marginBottom: '0.5rem' }}>
+            📚 {learning.category}
+          </div>
+          <div>{learning.insight}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function NextStepsTracker() {
+  const [checkedSteps, setCheckedSteps] = useState(new Set());
+  
+  const steps = [
+    "Avatar & HUD Update: Replace placeholder player model and design context-sensitive cursor",
+    "Mechanics & Optimization: Refine time-travel scripts and improve performance",
+    "Level Expansion: Build six full levels based on concept zones",
+    "Art Pass: Remove temporary pixel filter and apply consistent shaders"
+  ];
+  
+  const toggleStep = (index) => {
+    const newChecked = new Set(checkedSteps);
+    if (newChecked.has(index)) {
+      newChecked.delete(index);
+    } else {
+      newChecked.add(index);
+    }
+    setCheckedSteps(newChecked);
+  };
+  
+  return (
+    <div style={{ margin: '1rem 0' }}>
+      <div style={{ marginBottom: '1rem', color: 'var(--color-primary)', fontWeight: 'bold' }}>
+        🎯 Progress Tracker ({checkedSteps.size}/{steps.length} planned)
+      </div>
+      {steps.map((step, index) => (
+        <div key={index} style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          padding: '0.75rem',
+          margin: '0.25rem 0',
+          background: checkedSteps.has(index) ? 'rgba(0,255,0,0.1)' : 'var(--color-surface)',
+          border: '1px solid var(--color-primary)',
+          borderRadius: '4px',
+          cursor: 'pointer'
+        }}
+        onClick={() => toggleStep(index)}
+        >
+          <span style={{ 
+            marginRight: '0.75rem', 
+            fontSize: '1.2rem',
+            color: checkedSteps.has(index) ? 'green' : 'var(--color-primary)'
+          }}>
+            {checkedSteps.has(index) ? '✅' : '☐'}
+          </span>
+          <span style={{ 
+            textDecoration: checkedSteps.has(index) ? 'line-through' : 'none',
+            opacity: checkedSteps.has(index) ? 0.7 : 1
+          }}>
+            {index + 1}. {step}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ProjectFooter() {
+  return (
+    <div style={{
+      background: 'linear-gradient(45deg, var(--color-primary), var(--color-surface))',
+      borderRadius: '12px',
+      padding: '2rem',
+      textAlign: 'center',
+      margin: '2rem 0',
+      color: 'white'
+    }}>
+      <div style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>
+        🚀 Before After represents the intersection of narrative design, technical implementation, and creative vision
+      </div>
+      <div style={{ opacity: 0.9 }}>
+        A complete prototype showcasing full-stack game development skills across multiple disciplines
+      </div>
+    </div>
+  );
+}

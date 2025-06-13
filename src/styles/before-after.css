@@ -1,0 +1,271 @@
+/* ===================================================================
+   Before After Project Styles — Complete Overhaul
+   =================================================================== */
+
+/* 1. Color Variables */
+:root {
+  /* Core Palette */
+  --color-primary:    #650f6c;  /* Starbloom Purple */
+  --color-secondary:  #3e65ca;  /* Starbloom Blue */
+  --color-accent:     #3a9732;  /* MetroChord Green */
+  --color-surface:    #1e1e1e;  /* Dark background */
+  --color-text:       #f5f5f5;  /* Light text */
+
+  /* Region Palettes (for palette grid) */
+  --mc-brown:         #75462b;
+  --mc-orange:        #ea4800;
+  --mc-light-orange:  #ff6800;
+  --mc-maroon:        #8c1e0d;
+  --mc-green:         #3a9732;
+
+  --ruins-grey:       #a8adba;
+  --ruins-maroon:     #b42405;
+  --ruins-lo:         #ff6800;
+  --ruins-lavender:   #cdace6;
+  --ruins-lblue:      #c8e0e3;
+
+  --uk-brown:         #75462b;
+  --uk-orange:        #ea4800;
+  --uk-lo:            #ff6800;
+  --uk-purple:        #650f6c;
+  --uk-royal-purple:  #430c6c;
+
+  --sb-purple:        #650f6c;
+  --sb-royal:         #430c6c;
+  --sb-lblue:         #c8e0e3;
+  --sb-blue:          #3e65ca;
+  --sb-baby-blue:     #597eca;
+
+  --hv-green:         #3a9732;
+  --hv-blue:          #3e65ca;
+  --hv-grey:          #a8adba;
+  --hv-turquoise:     #6aefb9;
+  --hv-lcyan:         #75f4d3;
+}
+
+/* 2. Global Layout & Typography */
+.project-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  font-family: sans-serif;
+  line-height: 1.6;
+}
+
+.project-container h1,
+.project-container h2,
+.project-container h3,
+.project-container h4 {
+  color: var(--color-primary);
+  margin-top: 1.5rem;
+}
+
+.project-container p {
+  margin: 1rem 0;
+}
+
+/* 3. Hero Section */
+.before-after-hero {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.before-after-hero h1 {
+  font-size: 3rem;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.before-after-hero .logo {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+/* 4. Tagline */
+.before-after-tagline {
+  text-align: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: 8px;
+  margin: 1rem 0;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+/* 5. Color Palette Grid */
+.color-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.color-region {
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.color-region h4 {
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.color-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 0.25rem;
+  display: inline-block;
+  border: 2px solid rgba(255,  255, 255, 0.3);
+}
+
+/* 6. Interactive Section */
+.interactive-section {
+  background: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.interactive-section h3 {
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+/* 7. Button Styles */
+.section-button {
+  background: var(--color-primary);
+  color: var(--color-text);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0.5rem;
+}
+
+.section-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.section-button.active {
+  background: var(--color-accent);
+}
+
+/* 8. Status Indicator */
+.status-indicator {
+  background: linear-gradient(135deg, var(--hv-green) 0%, var(--hv-turquoise) 100%);
+  color: var(--color-text);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.status-indicator__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-indicator__title {
+  color: var(--color-text);
+  font-weight: bold;
+}
+
+.status-indicator__details {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* 9. Media Embeds */
+.media-embed {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  margin: 2rem 0;
+}
+
+.media-embed iframe {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* 10. Logo Showcase */
+.logo-showcase {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.logo-showcase img {
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 11. Map Gallery */
+.map-gallery-container {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.map-gallery-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 12. Tools Showcase */
+.tools-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.tools-showcase__card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* 13. Responsive Adjustments */
+@media (max-width: 768px) {
+  .before-after-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .before-after-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .color-palette-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
