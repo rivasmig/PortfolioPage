@@ -34,6 +34,22 @@ import { useState } from 'react';\r
   ⏰ time is a mutable variable ⏰\r
 </div>\r
 \r
+<div className="before-after-tagline">\r
+  ⏰ time is a mutable variable ⏰\r
+</div>\r
+\r
+{/* ADD THIS BUTTON */}\r
+<div className="center">\r
+  <a\r
+    href="https://rivasmig.itch.io/before-after-demo"\r
+    className="section-button"\r
+    target="_blank"\r
+    rel="noopener noreferrer"\r
+  >\r
+    🎮 Play the Demo on itch.io\r
+  </a>\r
+</div>\r
+\r
 ---\r
 \r
 ## 🎬 Prototype Trailer\r
