@@ -34,10 +34,6 @@ import { useState } from 'react';\r
   ⏰ time is a mutable variable ⏰\r
 </div>\r
 \r
-<div className="before-after-tagline">\r
-  ⏰ time is a mutable variable ⏰\r
-</div>\r
-\r
 {/* ADD THIS BUTTON */}\r
 <div className="center">\r
   <a\r
