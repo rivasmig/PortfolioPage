@@ -1,201 +1,158 @@
-# Portfolio 3D Engine - README v0.0.4
+# Portfolio 3D Engine
 
-## 🚀 Project Overview
-
-This project is a **modular, interactive 3D portfolio site** built with React, Three.js, and @react-three/fiber, designed to showcase diverse creative work in an immersive, gamified environment.
+A **modular, interactive 3D portfolio site** built with React, Three.js, and MDX that showcases creative work in an immersive, gamified environment.
 
 > Think of it like a tiny custom 3D game engine — but for storytelling who you are as a multidisciplinary creative developer.
 
-It blends **hybrid JSX/MDX content**, **dynamic 3D scenes**, and **themeable UI/UX** to enable flexible storytelling through projects, research, media, and more.
-
-Hosted on GitHub Pages, it's fully static, easily updatable, and reflects your professional identity through interaction, polish, and imagination.
+**Live Site**: [Portfolio 3D Engine](https://rivasmig.github.io/PortfolioPage/) • **Version**: v0.0.5
 
 ---
 
-## 🎯 Purpose & Vision
+## 🎯 What This Is
 
-* **Audience**: Employers, collaborators, and curious visitors
-* **Tone**: Playful but disciplined, stylish but technical
-* **Goal**: Communicate your depth as a developer through experience-rich, interactive pages
-* **Future**: Power future portfolio sections, galleries, themed research sites, and even business websites
+This portfolio blends **interactive 3D scenes**, **dynamic MDX content**, and **themeable experiences** to create something more engaging than a traditional portfolio site. It's built like a game engine with modular components, flexible architecture, and real-time feel.
 
----
+### Key Features
 
-## 🧠 Philosophy
-
-* **Built like a game engine**: Modular components, flexible architecture, real-time feel
-* **Hybrid content**: Interactive JSX + flexible MDX for frequent updates
-* **Playable storytelling**: Interactions, animations, environments reflect personality
-* **Professional first**: Built to impress employers who value creativity
+✨ **Interactive MDX Projects** - Full project pages with embedded media, galleries, and interactive components  
+🎮 **3D Components** - Modular Three.js components for immersive experiences  
+🎨 **Theming** - Switch between visual styles (Frutiger Aero, Gravity Falls, Minimal)  
+📱 **Tag-Based Organization** - Smart filtering and categorization system  
+🚀 **GitHub Pages Ready** - Fully static with hash-based routing  
 
 ---
 
-## 🧱 Current Structure
+## 🗂 What's Inside
+
+The site is organized around two main content types:
+
+### **Projects** (`/#/gallery`)
+Showcases my creative work with MDX pages featuring:
+- Interactive image galleries and media embeds
+- Progress tracking and feature lists
+- Custom styling and animations
+- YouTube videos, SoundCloud audio, external links
+
+### **Research & Interests** (`/#/interests`)
+Documenting my research, studies, and explorations:
+- Academic work and papers
+- Learning projects and experiments
+- Technical deep-dives and case studies
+
+Each piece of content is an `.mdx` file with frontmatter tags that drive the filtering, card generation, and routing systems.
+
+---
+
+## 🛠 Tech Overview
 
 ```
-PortfolioPage/
-├── assets/                         # Static global assets
-├── dist/                           # Vite build output
-├── GravityFallsResearchAssets/    # Assets specific to GF research page
-├── node_modules/                  # Dependencies
-├── projects/                      # MDX-driven project content
-├── interests/                     # MDX-driven research content
-├── src/                           # App source code
-│   ├── components/                # React + R3F components
-│   ├── content/                   # Themes and static content
-│   ├── core/                      # Central engines like theming
-│   ├── hooks/                     # Custom React hooks
-│   ├── pages/                     # Routable pages and MDX routers
-│   ├── styles/                    # Tailwind + custom styles
-│   └── utils/                     # Content loaders, helpers
-├── index.html                     # HTML entry point
-├── package.json                   # Project dependencies
-├── README.md                      # This file
-└── vite.config.js                 # Vite configuration
+React 18 + React Router + Three.js + MDX + Tailwind CSS
 ```
 
----
+- **React Router DOM 6** - Hash-based routing for GitHub Pages compatibility
+- **@react-three/fiber + drei** - 3D components and scenes  
+- **MDX Pipeline** - Frontmatter-driven content with React component support
+- **Tailwind CSS** - Utility-first styling with custom theme system
+- **Vite** - Fast development and optimized builds
 
-## 🔧 Tech Stack
-
-```
-React 18 + React Router DOM 6 (HashRouter for GitHub Pages)
-Three.js + @react-three/fiber + @react-three/drei
-Tailwind CSS 3 + PostCSS
-Vite for dev/build
-Hosted on GitHub Pages
-MDX with @mdx-js/rollup and @mdx-js/react
-Remark plugins for frontmatter
-```
+**Adding Content:**
+1. Create `.mdx` files in `/projects/` or `/interests/`
+2. Add frontmatter with tags and metadata
+3. Use React components within your content
+4. Site automatically generates routes and cards
 
 ---
 
-## ✅ What We Have (v0.0.4)
+## 🧭 Current Status (v0.0.5)
 
-* ✅ **Full MDX integration**: Complete pipeline with React component support, video embeds, interactive demos
-* ✅ **Dynamic routing**: Any `.mdx` file in `projects/` or `interests/` folders automatically becomes a route
-* ✅ **Tag system operational**: Validation, filtering, and card generation working in Gallery and Interests
-* ✅ **Real content loading**: File system integration replaces mock data for MDX-driven cards
-* ✅ **Stable routing system**: Centralized routing with dynamic MDX routers
-* ✅ **GitHub Pages compatibility**: Hash-based routing prevents 404s on deep links
-* ✅ **Theme registration timing**: Themes load before render, no "theme not found" errors
-* Modular 3D component system (Base3DComponent, containers, compositions)
-* Gravity Falls Research archive pages
-* Landing page with 3D canvas
-* Basic mobile layout (INCOMPLETE)
+### ✅ **What Works**
+- **Production-ready MDX showcase** with complex interactive components
+- **Working navigation system** using React Router with theme persistence
+- **Temporary tag system** for filtering and organization
+- **GitHub Pages deployment** with reliable routing
+- **Theme engine** with multiple visual styles
 
----
+### 🚧 **In Progress**
+- **Mobile responsiveness** - MDX layouts need breakpoint optimization
+- **Full Tag Integration** - A larger list of tags and potential interactions between tags
+- **3D component integration** - Bringing Three.js components into MDX files  
+- **Performance optimization** - Bundle size and loading improvements
 
-## ❌ What Doesn’t Work (Yet)
-
-* **Mobile responsiveness**: MDX pages need layout refinement and breakpoints
-* **3D integration in MDX**: Bringing custom 3D components into MDX files
-* **Theme auto-registration**: Dynamically loading themes from `/content/themes`
-* **Advanced card interactions**: Tag-based 3D positioning and physics
+### 📋 **Planned**
+- **More project examples** - Additional MDX showcases
+- **Advanced 3D features** - Physics, environmental effects, model loading
+- **Enhanced mobile experience** - Touch interactions and responsive layouts
+- **Automated Features** - auto generating pdfs, auto updating pages, overal ease of use
 
 ---
 
-## 🧭 Navigation Structure
+## 📖 Documentation
 
-* `/#/` → Landing
-* `/#/gallery` → Project list with tag filtering (WORKING)
-* `/#/interests` → Research articles list (WORKING)
-* `/#/project/:slug` → Individual project pages (MDX-driven)
-* `/#/interest/:slug` → Individual research pages (MDX-driven)
+For comprehensive information about working with this project:
 
-Future improvements:
+**For Developers & Contributors:**
+- `/docs/AGENT_QUICKSTART.md` - Quick context for AI agents and new contributors
+- `/docs/knowledge/` - Detailed technical documentation
+- `/docs/logs/` - Development history and change logs
 
-* Normalize URL casing
-* Breadcrumb navigation
-* Mobile navigation patterns
-
----
-
-## 🏷 Tagging System
-
-Each MDX page uses frontmatter tags for:
-
-* **Public Tags**: Displayed on cards (e.g., `unity`, `audio`, `esp32`)
-* **Private Tags**: Internal use for sorting, filtering, PDF generation
-
-Tag types:
-
-* **String** (e.g., `language: javascript`)
-* **Integer** (e.g., `collaborators: 4`)
-* **Link** (e.g., `paper: [url]`)
-
-Use cases:
-
-* Card generation in Gallery/Interests
-* Resume PDF generation
-* Client filtering controls
+**For Content Creators:**
+- `/docs/knowledge/workflows/adding-projects.md` - How to add new projects
+- `/docs/knowledge/workflows/creating-themes.md` - Custom theme development
+- `/docs/knowledge/components/` - Available React components for MDX
 
 ---
 
-## 🗺 Roadmap: v0.0.4 to v0.1.0
+## 🎨 Themes & Customization
 
-### 🚀 Phase 1 – Core Enhancements
+The site includes multiple visual themes that completely transform the look and feel:
 
-* [ ] **Mobile responsiveness** – refine MDX layouts and breakpoints
-* [ ] **3D in MDX** – integrate `three-d` components into MDX content
-* [ ] **Theme auto-registration** – dynamic theme loading
-* [ ] **Advanced card interactions** – physics and spatial placement
+- **Frutiger Aero** - Glossy, translucent early-2000s aesthetic
+- **Gravity Falls** - Mystery/adventure theme with custom styling
+- **Minimal** - Clean, modern professional look
 
-### 📚 Phase 2 – Content & Showcase
-
-* [ ] Video + Audio wrappers in MDX
-* [ ] 3D carousel viewer with light physics
-* [ ] PDF viewer and auto-generated resume
-
-### 🌴 Phase 3 – Atmosphere & Immersion
-
-* [ ] OBJ/GLTF model loading
-* [ ] Environmental FX (skybox, shaders)
-* [ ] Soft physics for interactive scenes
-* [ ] Mini game integration
+Themes affect everything from color palettes to component styling and can be easily extended or customized.
 
 ---
 
-## 📄 Build & Deploy
+## 🏗 Architecture Highlights
 
-```bash
-npm run dev         # Start local dev server
-npm run build       # Production build
-npm run preview     # Preview prod build
-npm run deploy      # Deploy to GitHub Pages
-```
+### **Modular 3D System**
+- `Base3DComponent` - Foundation for all 3D elements `src/components/three-d/base`
+- Organized by function: `primitives/`, `interactive/`, `compositions/`
+- Easy to extend with new Three.js components
 
-***Note:** `vite.config.js` includes `base: '/PortfolioPage/'` and uses `HashRouter` for reliable GitHub Pages routing.*
+### **MDX Content Pipeline**  
+- Frontmatter-driven metadata and tags
+- React component support within content
+- Automatic route generation from files
+- Smart external link handling
 
----
+### **Theme Engine**
+- CSS variable-based theming system
+- Component-level theme integration
+- Runtime theme switching
 
-## 👋 Contributing & AI Agents
+### **Tag System**
+- Public tags (displayed on cards)
+- Private tags (internal filtering)
+- Validation and filtering logic
+- Future: 3D spatial positioning via interactions
 
-This project is developed by a single developer with AI tooling support. All contributors and AI agents must:
+## 📄 License & Usage
 
-* Reference this README for structure and conventions
-* Preserve hybrid JSX/MDX design and theming
-* Ensure routing consistency and GitHub Pages compatibility
-* Test both local and production builds
-* Document changes before commit
-
----
-
-## 📚 Tips for Future Development
-
-* Place static assets in `/public/` or `/assets/`
-* Use `setTheme()` inside `useEffect()` in new pages
-* Import shared components via `@/components/...` alias
-* Add routes in `Router.jsx` first, matching URL patterns
-* Review `ThemeEngine.js` for theming workflow
+This project is designed as a portfolio page for myself, but feel free to fork, modify, and adapt for your own creative portfolio needs.
 
 ---
 
-## 🔄 Recent Changes (v0.0.4)
+## 🔮 Vision
 
-* MDX pipeline fully implemented with React, frontmatter, and custom components
-* Dynamic MDX routing for projects and interests
-* Tag validation, filtering, and real-file integration
-* Enhanced theme integration for MDX content
+This isn't just a portfolio site—it's a foundation for interactive storytelling about creative work. The modular architecture supports future expansions into:
 
-*Enjoy building!*
+- **Interactive galleries** with 3D navigation
+- **Mini-games** that showcase technical skills  
+- **Immersive experiences** that blend code, art, and interaction
+- **Dynamic content** that evolves with your work
+
+**Goal**: Create portfolio experiences that are as engaging and memorable as the work they showcase.
+
+---

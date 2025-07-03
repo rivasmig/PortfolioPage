@@ -1,3 +1,4 @@
+// src/utils/content/mdx-components.jsx
 // Import all our 3D components to make them available in MDX
 import PyramidComponent from '../../components/three-d/primitives/PyramidComponent';
 import CubeComponent from '../../components/three-d/primitives/CubeComponent';

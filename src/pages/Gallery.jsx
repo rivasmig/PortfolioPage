@@ -1,152 +1,135 @@
-// src/pages/Gallery.jsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useMDXContent } from '../hooks/useMDXContent';
 import { ProjectCard } from '../components/cards/ProjectCard';
 import { PUBLIC_TAGS } from '../core/tags/tags';
+import GLTFCanvas from '../components/layout/GLTFCanvas';
 
-function Gallery() {
+const Gallery = () => {
+  const navigate = useNavigate();
   const { projects, loading, error } = useMDXContent();
   const [selectedTags, setSelectedTags] = useState([]);
 
-  // Set theme on component mount
+  // Apply gallery theme colors
   useEffect(() => {
-    // Assuming you have a setTheme function from your existing theme system
-    if (window.setTheme) {
-      window.setTheme('gallery'); // or whatever gallery theme you prefer
-    }
-    // If no theme system yet, just set some CSS custom properties
+    window.setTheme?.('gallery');
     document.documentElement.style.setProperty('--primary-color', '#3B82F6');
     document.documentElement.style.setProperty('--secondary-color', '#1E40AF');
     document.documentElement.style.setProperty('--accent-color', '#60A5FA');
   }, []);
 
-  // Filter projects by selected tags
-  const filteredProjects = selectedTags.length > 0 
-    ? projects.filter(project => 
-        selectedTags.some(tag => project.publicTags.includes(tag))
-      )
+  // Filter by tag
+  const filtered = selectedTags.length
+    ? projects.filter(p => selectedTags.some(tag => p.publicTags.includes(tag)))
     : projects;
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-blue-800 font-medium">Loading projects...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-white">Loading projects…</p>
       </div>
     );
   }
-
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center p-8">
-          <p className="text-red-600 font-medium">Error loading projects:</p>
-          <p className="text-red-500 text-sm mt-2">{error.join(', ')}</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-red-500">Error loading projects: {error.join(', ')}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-8">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* 3D animated background */}
+      <GLTFCanvas
+        url="public/assets/scenes/littleTest2.gltf"
+        animated={true}
+        environment="public/assets/hdri/autumn_field_puresky_4k.hdr"
+        className="absolute inset-0"
+      />
+
+      {/* UI Overlay */}
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/')}
+          className="mb-6 text-sm font-medium text-white hover:underline"
+        >
+          &larr; Back to Home
+        </button>
+
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-blue-900 mb-4">
-            🚀 Project Gallery
-          </h1>
-          <p className="text-blue-700 text-lg max-w-2xl mx-auto">
-            A collection of creative coding projects, from embedded hardware to web experiences.
-          </p>
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-2">🚀 Project Gallery</h1>
+          <p className="text-white/80">Explore my creative coding work.</p>
         </div>
 
-        {/* Tag Filter Section */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 mb-8 shadow-lg">
-          <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center">
+        {/* Tag Filters */}
+        <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 mb-8 shadow-lg">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
             🏷️ Filter by Technology:
           </h3>
           <div className="flex flex-wrap gap-2">
-            {Object.entries(PUBLIC_TAGS).map(([tag, config]) => (
+            {Object.entries(PUBLIC_TAGS).map(([tag, cfg]) => (
               <button
                 key={tag}
-                onClick={() => {
-                  setSelectedTags(prev => 
-                    prev.includes(tag) 
-                      ? prev.filter(t => t !== tag)
-                      : [...prev, tag]
-                  );
-                }}
+                onClick={() => setSelectedTags(prev =>
+                  prev.includes(tag)
+                    ? prev.filter(t => t !== tag)
+                    : [...prev, tag]
+                )}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   selectedTags.includes(tag)
-                    ? 'bg-blue-500 text-white shadow-md transform scale-105'
-                    : 'bg-white/80 text-gray-700 hover:bg-blue-100 hover:text-blue-800 shadow-sm'
+                    ? 'bg-white/40 text-white shadow-md scale-105'
+                    : 'bg-white/20 text-white/80 hover:bg-white/30'
                 }`}
-                style={{
-                  borderColor: selectedTags.includes(tag) ? config.color : 'transparent',
-                  borderWidth: '2px'
-                }}
+                style={{ border: selectedTags.includes(tag) ? `2px solid ${cfg.color}` : '2px solid transparent' }}
               >
-                {config.icon} {config.label}
+                {cfg.icon} {cfg.label}
               </button>
             ))}
+            {selectedTags.length > 0 && (
+              <button
+                onClick={() => setSelectedTags([])}
+                className="px-4 py-2 text-sm text-white/80 hover:underline"
+              >
+                Clear Filters
+              </button>
+            )}
           </div>
-          
-          {selectedTags.length > 0 && (
-            <button
-              onClick={() => setSelectedTags([])}
-              className="mt-3 text-sm text-blue-600 hover:text-blue-800 underline"
-            >
-              Clear all filters
-            </button>
-          )}
         </div>
 
-        {/* Project Cards - Simple vertical stack */}
+        {/* Project Cards */}
         <div className="space-y-6">
-          {filteredProjects.map((project, index) => (
-            <div 
-              key={project.slug}
-              className="transform transition-all duration-300 hover:scale-[1.02]"
-              style={{
-                animationDelay: `${index * 100}ms`
-              }}
-            >
+          {filtered.map((project, idx) => (
+            <div key={project.slug} className="animate-fadeIn" style={{ animationDelay: `${idx * 100}ms` }}>
               <ProjectCard
                 title={project.title}
                 description={project.description}
                 publicTags={project.publicTags}
                 privateTags={project.privateTags}
                 slug={project.slug}
-                className="bg-white/80 backdrop-blur-sm border-blue-200"
+                className="bg-white/20 backdrop-blur-sm border border-white/30"
               />
             </div>
           ))}
+          {filtered.length === 0 && (
+            <div className="text-center py-16 text-white/80">
+              <div className="text-6xl mb-4">🔍</div>
+              <p>No projects match those filters.</p>
+            </div>
+          )}
         </div>
 
-        {/* Empty state */}
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-blue-900 mb-2">
-              No projects found
-            </h3>
-            <p className="text-blue-700">
-              Try adjusting your filters to see more projects.
-            </p>
-          </div>
-        )}
-
-        {/* Footer stats */}
+        {/* Footer Stats */}
         <div className="mt-12 text-center">
-          <p className="text-blue-600 text-sm">
-            Showing {filteredProjects.length} of {projects.length} projects
+          <p className="text-white/80 text-sm">
+            Showing {filtered.length} / {projects.length}
           </p>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Gallery;

@@ -1,3 +1,4 @@
+// src/content/themes
 /**
  * Frutiger Aero Theme - Primary aesthetic
  * Clean, glossy, futuristic with glass and chrome effects

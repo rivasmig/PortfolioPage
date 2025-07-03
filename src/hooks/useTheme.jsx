@@ -1,3 +1,4 @@
+// src/hooks/useTheme.jsx
 import { useState, useEffect } from 'react';
 import { themeEngine } from '../core/ThemeEngine';
 

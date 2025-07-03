@@ -4,169 +4,181 @@ import { OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei
 import { useTheme } from '../../hooks/useTheme.jsx';
 import * as THREE from 'three';
 
-// Component to handle theme-based lighting
+// Theme-based lighting setup with hemisphere, ambient, and directional lights
 const ThemeLighting = () => {
   const { getThemeProperty } = useTheme();
-  
   const ambientColor = getThemeProperty('lighting.ambientColor', '#ffffff');
   const ambientIntensity = parseFloat(getThemeProperty('lighting.ambientIntensity', '0.4'));
-  const directionalColor = getThemeProperty('lighting.directionalColor', '#ffffff');
-  const directionalIntensity = parseFloat(getThemeProperty('lighting.directionalIntensity', '0.6'));
-  const directionalPosition = getThemeProperty('lighting.directionalPosition', [10, 10, 5]);
-  
+
+  const hemiSkyColor = getThemeProperty('lighting.hemiSkyColor', '#ffffff');
+  const hemiGroundColor = getThemeProperty('lighting.hemiGroundColor', '#444444');
+  const hemiIntensity = parseFloat(getThemeProperty('lighting.hemiIntensity', '0.3'));
+
+  const dirColor = getThemeProperty('lighting.directionalColor', '#ffffff');
+  const dirIntensity = parseFloat(getThemeProperty('lighting.directionalIntensity', '0.6'));
+  const dirPosition = getThemeProperty('lighting.directionalPosition', [10, 10, 5]);
+
   return (
     <>
-      {/* Theme-controlled ambient light */}
-      <ambientLight color={ambientColor} intensity={ambientIntensity} />
-      
-      {/* Theme-controlled directional light */}
-      <directionalLight 
-        color={directionalColor}
-        position={directionalPosition} 
-        intensity={directionalIntensity}
-        castShadow={true}
-        shadow-mapSize={[1024, 1024]}
+      <hemisphereLight
+        skyColor={hemiSkyColor}
+        groundColor={hemiGroundColor}
+        intensity={hemiIntensity}
+      />
+      <ambientLight
+        color={ambientColor}
+        intensity={ambientIntensity}
+      />
+      <directionalLight
+        color={dirColor}
+        intensity={dirIntensity}
+        position={dirPosition}
+        castShadow
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-near={0.5}
+        shadow-camera-far={500}
+        shadow-camera-left={-10}
+        shadow-camera-right={10}
+        shadow-camera-top={10}
+        shadow-camera-bottom={-10}
       />
     </>
   );
 };
-const SceneBackground = () => {
+
+// Background and fog controlled by theme or CSS variables
+const SceneBackground = ({ useCssVars = false }) => {
   const { scene } = useThree();
   const { getThemeProperty } = useTheme();
-  
+
   useEffect(() => {
-    const backgroundColor = getThemeProperty('scene.backgroundColor', '#667eea');
-    const fogColor = getThemeProperty('scene.fogColor', null);
-    const fogDensity = getThemeProperty('scene.fogDensity', 0);
-    
-    // Set scene background
-    scene.background = new THREE.Color(backgroundColor);
-    
-    // Set fog if specified in theme
+    // First try theme property, then CSS var, then default
+    let bgColor = getThemeProperty('scene.backgroundColor', null);
+    if (!bgColor && useCssVars) {
+      const cssBg = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+      bgColor = cssBg || null;
+    }
+    if (bgColor) scene.background = new THREE.Color(bgColor.trim());
+
+    // Fog
+    let fogColor = getThemeProperty('scene.fogColor', null);
+    if (!fogColor && useCssVars) {
+      const cssFog = getComputedStyle(document.documentElement).getPropertyValue('--secondary-color');
+      fogColor = cssFog || null;
+    }
+    const fogDensity = parseFloat(getThemeProperty('scene.fogDensity', '0'));
     if (fogColor && fogDensity > 0) {
-      scene.fog = new THREE.FogExp2(new THREE.Color(fogColor), fogDensity);
+      scene.fog = new THREE.FogExp2(new THREE.Color(fogColor.trim()), fogDensity);
     } else {
       scene.fog = null;
     }
-  }, [scene, getThemeProperty]);
-  
+  }, [scene, getThemeProperty, useCssVars]);
+
   return null;
 };
-// Mobile detection hook
+
+// Hook to detect mobile for performance tweaks
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = React.useState(false);
-  
   React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const check = () => setIsMobile(
+      window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    );
+    check(); window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
-  
   return isMobile;
 };
 
 /**
- * ThreeCanvas - The foundation 3D canvas component
- * This wraps all our 3D content and provides the basic R3F setup
+ * ThreeCanvas – foundational 3D scene wrapper
+ * Props:
+ *   disableSceneBackground: skips any background clear to let CSS show
+ *   useCssBackground: reads CSS vars for background/fog if theme props absent
  */
-const ThreeCanvas = ({ 
-  children, 
-  camera = { position: [0, 0, 5], fov: 75 },
+const ThreeCanvas = ({
+  children,
+  camera = { position: [0, 0, 5], fov: 75, near: 0.1, far: 1000 },
   controls = true,
-  environment = "city",
+  environment = 'sunset',
   shadows = true,
-  className = "w-full h-screen",
-  ...props 
+  skybox = false,
+  disableSceneBackground = false,
+  useCssBackground = false,
+  className = 'w-full h-screen',
+  ...props
 }) => {
   const isMobile = useIsMobile();
   const { getThemeProperty } = useTheme();
-  
-  // Get theme-specific scene settings
-  const environmentPreset = getThemeProperty('lighting.environmentPreset', environment);
-  
-  // Mobile-optimized settings
-  const mobileSettings = {
-    dpr: [1, 1.5], // Lower device pixel ratio for performance
-    shadows: false, // Disable shadows on mobile
-    environment: "sunset", // Lighter environment
-    antialias: false, // Disable antialiasing for performance
-  };
-  
-  const desktopSettings = {
-    dpr: [1, 2],
-    shadows: shadows,
-    environment: environment,
-    antialias: true,
-  };
-  
+
+  // Determine environment preset
+  const envPreset = getThemeProperty('lighting.environmentPreset', environment);
+
+  // Settings for mobile vs desktop
+  const mobileSettings = { dpr: [1, 1.5], shadows: false, antialias: false };
+  const desktopSettings = { dpr: [1, 2], shadows, antialias: true };
   const settings = isMobile ? mobileSettings : desktopSettings;
+
   return (
     <div className={className}>
       <Canvas
         shadows={settings.shadows}
         dpr={settings.dpr}
-        gl={{ 
+        gl={{
           antialias: settings.antialias,
           alpha: true,
-          powerPreference: isMobile ? "low-power" : "high-performance",
-          // Mobile-specific optimizations
-          ...(isMobile && {
-            precision: "lowp",
-            stencil: false,
-            depth: false,
-          })
+          powerPreference: isMobile ? 'low-power' : 'high-performance',
+          //physicallyCorrectLights: true,
+          outputColorSpace: THREE.sRGBColorSpace,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1,
+          ...(isMobile && { precision: 'lowp', stencil: false, depth: false }),
         }}
         {...props}
       >
-        {/* Scene background and fog controller */}
-        <SceneBackground />
-        
-        {/* Camera setup */}
-        <PerspectiveCamera 
-          makeDefault 
-          position={camera.position} 
+        {/* Scene background, skip if CSS gradient behind */}
+        {!disableSceneBackground && (
+          <SceneBackground useCssVars={useCssBackground} />
+        )}
+
+        {/* Skybox/environment */}
+        {skybox ? (
+          <Environment preset={envPreset} background />
+        ) : (
+          <Environment preset={envPreset} />
+        )}
+
+        {/* Main camera with adjustable clipping */}
+        <PerspectiveCamera
+          makeDefault
+          position={camera.position}
           fov={camera.fov}
+          near={camera.near}
+          far={camera.far}
         />
-        
-        {/* Theme-controlled lighting */}
+
+        {/* Lighting */}
         <ThemeLighting />
-        
-        {/* Basic lighting setup */}
-        {/* Removed static lights - now controlled by theme */}
-        
-        {/* Environment for reflections and ambient lighting */}
-        <Environment preset={environmentPreset} />
-        
-        {/* Orbit controls for mouse/touch interaction */}
+
+        {/* Controls */}
         {controls && (
           <OrbitControls
-            enablePan={!isMobile} // Disable pan on mobile to avoid conflicts
-            enableZoom={true}
-            enableRotate={true}
-            minDistance={isMobile ? 3 : 2} // Closer min distance on mobile
+            enablePan={!isMobile}
+            enableZoom
+            enableRotate
+            minDistance={isMobile ? 3 : 2}
             maxDistance={isMobile ? 15 : 20}
-            // Mobile-optimized touch settings
-            touches={{
-              ONE: 'rotate',
-              TWO: 'dolly'
-            }}
-            // Smoother rotation on mobile
+            touches={{ ONE: 'rotate', TWO: 'dolly' }}
             rotateSpeed={isMobile ? 0.5 : 1}
             zoomSpeed={isMobile ? 0.8 : 1}
-            // Reduce sensitivity for better mobile experience
-            enableDamping={true}
+            enableDamping
             dampingFactor={isMobile ? 0.1 : 0.05}
           />
         )}
-        
-        {/* Suspense boundary for loading 3D content */}
-        <Suspense fallback={null}>
-          {children}
-        </Suspense>
+
+        {/* 3D content */}
+        <Suspense fallback={null}>{children}</Suspense>
       </Canvas>
     </div>
   );

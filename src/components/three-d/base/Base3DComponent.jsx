@@ -1,3 +1,4 @@
+// src/components/three-d/base/Base3DComponent.jsx
 import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useTheme } from '../../../hooks/useTheme.jsx';

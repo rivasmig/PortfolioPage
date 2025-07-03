@@ -1,3 +1,4 @@
+// src/components/three-d/base/Animated3D.jsx
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import Base3DComponent from './Base3DComponent';

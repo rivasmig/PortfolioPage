@@ -1,56 +1,27 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, Box } from '@react-three/drei';
-
-// Rotating wrapper for animation
-const Rotating = ({ children, speed = 0.01 }) => {
-  const ref = useRef();
-  useFrame((_, delta) => {
-    ref.current && (ref.current.rotation.y += speed);
-  });
-  return <group ref={ref}>{children}</group>;
-};
+import GLTFCanvas from '../components/layout/GLTFCanvas';
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [showInfo, setShowInfo] = useState(false);
 
-  // Apply refined theme colors
+  // Apply refined theme colors for a sunset vibe
   useEffect(() => {
     window.setTheme?.('dark');
-    document.documentElement.style.setProperty('--primary-color', '#0f172a');
-    document.documentElement.style.setProperty('--secondary-color', '#334155');
-    document.documentElement.style.setProperty('--accent-color', '#facc15');
+    document.documentElement.style.setProperty('--primary-color', '#2c3e50');   // dusk blue
+    document.documentElement.style.setProperty('--secondary-color', '#e67e22'); // sunset orange
+    document.documentElement.style.setProperty('--accent-color', '#f1c40f');    // golden highlight
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-800 to-indigo-600">
-      {/* 3D Background Elements */}
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }} className="absolute inset-0">
-        <ambientLight intensity={0.6} />
-        <pointLight position={[5, 5, 5]} intensity={1} />
-
-        <Rotating speed={0.02}>
-          <Sphere args={[1.2, 32, 32]} position={[0, 0, -3]}>
-            <meshStandardMaterial transparent opacity={0.25} color="var(--accent-color)" />
-          </Sphere>
-        </Rotating>
-        <Rotating speed={-0.015}>
-          <Box args={[1.5, 1.5, 1.5]} position={[2, 0, -3]}>
-            <meshStandardMaterial transparent opacity={0.2} color="var(--secondary-color)" />
-          </Box>
-        </Rotating>
-        <Rotating speed={0.015}>
-          <Box args={[1.5, 1.5, 1.5]} position={[-2, 0, -3]}>
-            <meshStandardMaterial transparent opacity={0.2} color="var(--secondary-color)" />
-          </Box>
-        </Rotating>
-      </Canvas>
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-orange-600 to-pink-500">
+      {/* GLTF-loaded Beach Scene with palm trees */}
+      <GLTFCanvas url="public/assets/scenes/palmtree.gltf" environment="public/assets/hdri/industrial_sunset_02_puresky_4k.hdr" />
 
       {/* Centered Foreground Panel */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="theme-ui-panel bg-white/30 backdrop-blur-xl rounded-3xl p-8 w-80 text-center shadow-lg">
+        <div className="theme-ui-panel bg-white/20 backdrop-blur-xl rounded-3xl p-8 w-80 text-center shadow-lg">
           {/* Photo & Identity */}
           <div className="flex flex-col items-center space-y-2 mb-4">
             <img
@@ -91,13 +62,13 @@ const LandingPage = () => {
           <div className="flex flex-col items-center space-y-3 mb-6">
             <button
               onClick={() => navigate('/gallery')}
-              className="w-full px-4 py-2 rounded-lg bg-[#334155] text-white font-semibold hover:opacity-90 transition"
+              className="w-full px-4 py-2 rounded-lg bg-[#2c3e50] text-white font-semibold hover:opacity-90 transition"
             >
               View Gallery
             </button>
             <button
               onClick={() => navigate('/interests')}
-              className="w-full px-4 py-2 rounded-lg bg-[#2563EB] text-white font-semibold hover:opacity-90 transition"
+              className="w-full px-4 py-2 rounded-lg bg-[#e67e22] text-white font-semibold hover:opacity-90 transition"
             >
               View Interests
             </button>

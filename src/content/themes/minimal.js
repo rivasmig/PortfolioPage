@@ -1,3 +1,4 @@
+// src/content/themes/minimal.js
 /**
  * Minimal Theme - Clean, simple, monochromatic
  * For when you want a more professional/subdued look

@@ -1,3 +1,4 @@
+// src/components/three-d/primitives/CubeComponent.jsx
 import React from 'react';
 import Base3DComponent from '../base/Base3DComponent';
 

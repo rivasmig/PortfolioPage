@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { themeEngine } from './core/ThemeEngine';

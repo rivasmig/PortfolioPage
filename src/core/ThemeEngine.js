@@ -1,3 +1,4 @@
+// src/core/ThemeEngine.js
 /**
  * ThemeEngine - Manages dynamic theme switching for the entire site
  * Handles both 2D UI styles and 3D material/lighting properties
