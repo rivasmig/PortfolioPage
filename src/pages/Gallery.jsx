@@ -42,9 +42,9 @@ const Gallery = () => {
     <div className="relative min-h-screen overflow-hidden">
       {/* 3D animated background */}
       <GLTFCanvas
-        url="public/assets/scenes/littleTest2.gltf"
+        url="/assets/scenes/littleTest2.gltf"
         animated={true}
-        environment="public/assets/hdri/autumn_field_puresky_4k.hdr"
+        environment="/assets/hdri/autumn_field_puresky_4k.hdr"
         className="absolute inset-0"
       />
 

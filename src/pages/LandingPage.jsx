@@ -17,7 +17,7 @@ const LandingPage = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-orange-600 to-pink-500">
       {/* GLTF-loaded Beach Scene with palm trees */}
-      <GLTFCanvas url="public/assets/scenes/palmtree.gltf" environment="public/assets/hdri/industrial_sunset_02_puresky_4k.hdr" />
+      <GLTFCanvas url="/assets/scenes/palmtree.gltf" environment="/assets/hdri/industrial_sunset_02_puresky_4k.hdr" />
 
       {/* Centered Foreground Panel */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
