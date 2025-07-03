@@ -1,3 +1,4 @@
+// src/pages/LandingPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GLTFCanvas from '../components/layout/GLTFCanvas';
@@ -14,14 +15,24 @@ const LandingPage = () => {
     document.documentElement.style.setProperty('--accent-color', '#f1c40f');    // golden highlight
   }, []);
 
+  // Compute asset base URL
+  const base = import.meta.env.BASE_URL;
+  const gltfUrl = `${base}assets/scenes/palmtree.gltf`;
+  const hdrUrl = `${base}assets/hdri/industrial_sunset_02_puresky_4k.hdr`;
+
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-orange-600 to-pink-500">
-      {/* GLTF-loaded Beach Scene with palm trees */}
-      <GLTFCanvas url="/assets/scenes/palmtree.gltf" environment="/assets/hdri/industrial_sunset_02_puresky_4k.hdr" />
+    <div className="relative min-h-screen overflow-hidden">
+      {/* GLTF-loaded Beach Scene with palm trees and custom HDRI */}
+      <GLTFCanvas
+        url={gltfUrl}
+        environment={hdrUrl}
+        animated={true}
+        className="absolute inset-0"
+      />
 
       {/* Centered Foreground Panel */}
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="theme-ui-panel bg-white/20 backdrop-blur-xl rounded-3xl p-8 w-80 text-center shadow-lg">
+        <div className="theme-ui-panel bg-white/30 backdrop-blur-xl rounded-3xl p-8 w-80 text-center shadow-lg">
           {/* Photo & Identity */}
           <div className="flex flex-col items-center space-y-2 mb-4">
             <img

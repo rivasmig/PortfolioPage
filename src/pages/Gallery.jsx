@@ -1,3 +1,4 @@
+// src/pages/Gallery.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMDXContent } from '../hooks/useMDXContent';
@@ -17,6 +18,11 @@ const Gallery = () => {
     document.documentElement.style.setProperty('--secondary-color', '#1E40AF');
     document.documentElement.style.setProperty('--accent-color', '#60A5FA');
   }, []);
+
+  // Compute asset base URL
+  const base = import.meta.env.BASE_URL;
+  const sceneUrl = `${base}assets/scenes/littleTest2.gltf`;
+  const hdrUrl = `${base}assets/hdri/autumn_field_puresky_4k.hdr`;
 
   // Filter by tag
   const filtered = selectedTags.length
@@ -42,9 +48,9 @@ const Gallery = () => {
     <div className="relative min-h-screen overflow-hidden">
       {/* 3D animated background */}
       <GLTFCanvas
-        url="/assets/scenes/littleTest2.gltf"
+        url={sceneUrl}
         animated={true}
-        environment="/assets/hdri/autumn_field_puresky_4k.hdr"
+        environment={hdrUrl}
         className="absolute inset-0"
       />
 
