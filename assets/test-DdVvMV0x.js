@@ -1,4 +1,4 @@
-import{j as e,r as t}from"./index-BsbDU7gG.js";function s(){const[r,n]=t.useState(0);return e.jsxs("div",{style:{padding:"1rem",border:"1px solid var(--color-primary)",borderRadius:"8px",margin:"1rem 0",textAlign:"center",background:"var(--color-surface)"},children:[e.jsx("p",{children:"A simple React component embedded in Markdown:"}),e.jsx("div",{style:{fontSize:"2rem",fontWeight:"bold",margin:"0.5rem 0",color:"var(--color-primary)"},children:r}),e.jsx("button",{onClick:()=>n(r+1),style:{padding:"0.5rem 1rem",background:"var(--color-primary)",color:"var(--color-background)",border:"none",borderRadius:"4px",cursor:"pointer",marginRight:"0.5rem"},children:"Click me!"}),e.jsx("button",{onClick:()=>n(0),style:{padding:"0.5rem 1rem",background:"transparent",color:"var(--color-primary)",border:"1px solid var(--color-primary)",borderRadius:"4px",cursor:"pointer"},children:"Reset"})]})}function o(){return e.jsx("div",{style:{position:"relative",paddingBottom:"56.25%",height:0,overflow:"hidden",margin:"1rem 0",borderRadius:"8px",border:"1px solid var(--color-primary)"},children:e.jsx("iframe",{style:{position:"absolute",top:0,left:0,width:"100%",height:"100%",borderRadius:"8px"},src:"https://www.youtube.com/embed/dQw4w9WgXcQ?si=kQ6lPL4Du0oGM12L",title:"YouTube video player",frameBorder:"0",allow:"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",referrerPolicy:"strict-origin-when-cross-origin",allowFullScreen:!0})})}function i(r){const n={blockquote:"blockquote",code:"code",em:"em",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",p:"p",pre:"pre",strong:"strong",ul:"ul",...r.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.h1,{children:"MDX System Test ✨"}),`
+import{j as e,r as t}from"./index-D68UZ37k.js";function s(){const[r,n]=t.useState(0);return e.jsxs("div",{style:{padding:"1rem",border:"1px solid var(--color-primary)",borderRadius:"8px",margin:"1rem 0",textAlign:"center",background:"var(--color-surface)"},children:[e.jsx("p",{children:"A simple React component embedded in Markdown:"}),e.jsx("div",{style:{fontSize:"2rem",fontWeight:"bold",margin:"0.5rem 0",color:"var(--color-primary)"},children:r}),e.jsx("button",{onClick:()=>n(r+1),style:{padding:"0.5rem 1rem",background:"var(--color-primary)",color:"var(--color-background)",border:"none",borderRadius:"4px",cursor:"pointer",marginRight:"0.5rem"},children:"Click me!"}),e.jsx("button",{onClick:()=>n(0),style:{padding:"0.5rem 1rem",background:"transparent",color:"var(--color-primary)",border:"1px solid var(--color-primary)",borderRadius:"4px",cursor:"pointer"},children:"Reset"})]})}function o(){return e.jsx("div",{style:{position:"relative",paddingBottom:"56.25%",height:0,overflow:"hidden",margin:"1rem 0",borderRadius:"8px",border:"1px solid var(--color-primary)"},children:e.jsx("iframe",{style:{position:"absolute",top:0,left:0,width:"100%",height:"100%",borderRadius:"8px"},src:"https://www.youtube.com/embed/dQw4w9WgXcQ?si=kQ6lPL4Du0oGM12L",title:"YouTube video player",frameBorder:"0",allow:"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",referrerPolicy:"strict-origin-when-cross-origin",allowFullScreen:!0})})}function i(r){const n={blockquote:"blockquote",code:"code",em:"em",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",p:"p",pre:"pre",strong:"strong",ul:"ul",...r.components};return e.jsxs(e.Fragment,{children:[e.jsx(n.h1,{children:"MDX System Test ✨"}),`
 `,e.jsxs(n.p,{children:["Welcome to the ",e.jsx(n.strong,{children:"MDX testing ground"}),"! This file demonstrates how beautiful normal Markdown can look with just a few interactive flourishes."]}),`
 `,e.jsx(n.h2,{children:"What's Working Here? 🚀"}),`
 `,e.jsxs(n.ul,{children:[`
@@ -25,14 +25,14 @@ import{j as e,r as t}from"./index-BsbDU7gG.js";function s(){const[r,n]=t.useStat
 `,e.jsx(n.li,{children:"Theme integration ✅"}),`
 `,e.jsx(n.li,{children:"Video embeds ✅"}),`
 `]}),`
-`,e.jsx(n.pre,{children:e.jsx(n.code,{className:"language-javascript",children:`// Clean, syntax-highlighted code blocks\r
-const mdxTest = {\r
-  status: "working perfectly",\r
-  styling: "automatic",\r
-  interactivity: "when needed",\r
-  media: "fully supported"\r
-};\r
-\r
+`,e.jsx(n.pre,{children:e.jsx(n.code,{className:"language-javascript",children:`// Clean, syntax-highlighted code blocks
+const mdxTest = {
+  status: "working perfectly",
+  styling: "automatic",
+  interactivity: "when needed",
+  media: "fully supported"
+};
+
 console.log("Hello from the MDX system!");
 `})}),`
 `,e.jsx(n.h2,{children:"Interactive Demo"}),`
