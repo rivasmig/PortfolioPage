@@ -17,7 +17,7 @@ const LandingPage = () => {
 
   // Compute asset base URL
   const base = import.meta.env.BASE_URL;
-  const gltfUrl = `${base}assets/scenes/palmtree.gltf`;
+  const gltfUrl = `${base}assets/scenes/palmtree02.gltf`;
   const hdrUrl = `${base}assets/hdri/industrial_sunset_02_puresky_4k.hdr`;
 
   return (
@@ -36,7 +36,7 @@ const LandingPage = () => {
           {/* Photo & Identity */}
           <div className="flex flex-col items-center space-y-2 mb-4">
             <img
-              src="https://i.ibb.co/kgvRbVL7/IMG-6016.jpg"
+              src="https://i.ibb.co/dRX7fCc/Screenshot-20250810-125618-Gallery-1.jpg"
               alt="Miguel Rivas"
               className="w-32 h-32 rounded-full border-4 border-white shadow-md"
             />
