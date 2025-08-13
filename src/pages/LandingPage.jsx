@@ -137,7 +137,7 @@ export default function LandingPage() {
           title: 'Miguel Rivas', // this shows in the taskbar/minimized state
           icon: '👤',
           // Center-ish top window
-          rect: { x: 0.19, y: 0.10, w: 0.62, h: 0.58 },
+          rect: { x: 0.19, y: 0.02, w: 0.62, h: 0.4 },
           state: 'normal',
           content: <MainWindowContent />,
         },
@@ -146,7 +146,7 @@ export default function LandingPage() {
           title: 'Highlight Project',
           icon: '⭐',
           // Slight offset below for flavor (kept friendly for mobile)
-          rect: { x: 0.22, y: 0.44, w: 0.56, h: 0.42 },
+          rect: { x: 0.22, y: 0.45, w: 0.56, h: 0.4 },
           state: 'normal',
           content: <HighlightWindowContent />,
         },
