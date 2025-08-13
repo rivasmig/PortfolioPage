@@ -12,13 +12,14 @@ import BackgroundPage from './pages/gravity-falls-research/BackgroundPage';
 import MethodsPage from './pages/gravity-falls-research/MethodsPage';
 import DataPage from './pages/gravity-falls-research/DataPage';
 import DiscussionPage from './pages/gravity-falls-research/DiscussionPage';
+import TestPage from './pages/TestPage'; // <-- added
 
 // Loading component for MDX files using your theme system
 function MDXLoader() {
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-background)' }}>
       <div className="theme-ui-panel text-center">
-        <div 
+        <div
           className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4"
           style={{ borderColor: 'var(--color-primary)' }}
         ></div>
@@ -88,7 +89,7 @@ function DynamicMDXPage({ type }) {
     const loadMDX = async () => {
       setLoading(true);
       setError(false);
-      
+
       try {
         // Dynamic import of MDX file
         const module = await import(`./pages/${type}/${slug}.mdx`);
@@ -114,69 +115,48 @@ function DynamicMDXPage({ type }) {
     return <MDXError slug={slug} type={type} />;
   }
 
-  // MDX components that will be available in all MDX files
+  // MDX components available in all MDX files
   const mdxComponents = {
-    // Custom components available in all MDX files
-    // You can add video players, code blocks, etc. here
-    
-    // Example: Wrapper for images to make them responsive
     img: (props) => (
-      <img 
-        {...props} 
-        style={{ 
-          maxWidth: '100%', 
-          height: 'auto', 
+      <img
+        {...props}
+        style={{
+          maxWidth: '100%',
+          height: 'auto',
           borderRadius: '8px',
           margin: '1rem 0',
-          ...props.style 
-        }} 
+          ...props.style,
+        }}
       />
     ),
-    
-    // Example: Custom link styling with external link handling
     a: (props) => {
-      // If it's an external link, use regular anchor tag
       if (props.href && (props.href.startsWith('http') || props.href.startsWith('mailto'))) {
         return (
-          <a 
-            {...props} 
-            style={{ 
-              color: 'var(--color-primary)', 
-              textDecoration: 'none',
-              ...props.style 
-            }}
-            onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
-            onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+          <a
+            {...props}
+            style={{ color: 'var(--color-primary)', textDecoration: 'none', ...props.style }}
+            onMouseEnter={(e) => (e.target.style.textDecoration = 'underline')}
+            onMouseLeave={(e) => (e.target.style.textDecoration = 'none')}
             target="_blank"
             rel="noopener noreferrer"
           />
         );
       }
-      
-      // For internal links, you could use navigate here if needed
       return (
-        <a 
-          {...props} 
-          style={{ 
-            color: 'var(--color-primary)', 
-            textDecoration: 'none',
-            ...props.style 
-          }}
-          onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
-          onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+        <a
+          {...props}
+          style={{ color: 'var(--color-primary)', textDecoration: 'none', ...props.style }}
+          onMouseEnter={(e) => (e.target.style.textDecoration = 'underline')}
+          onMouseLeave={(e) => (e.target.style.textDecoration = 'none')}
         />
       );
-    }
+    },
   };
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--color-background)' }}>
       <div className="container mx-auto px-4 py-8 max-w-4xl">
-        
-        {/* Navigation */}
         <MDXNavigation type={type} slug={slug} />
-        
-        {/* MDX Content */}
         <MDXProvider components={mdxComponents}>
           <Suspense fallback={<MDXLoader />}>
             <article className="theme-ui-panel prose-style">
@@ -184,12 +164,8 @@ function DynamicMDXPage({ type }) {
             </article>
           </Suspense>
         </MDXProvider>
-        
-        {/* Footer for MDX pages */}
         <div className="mt-8 text-center">
-          <p className="theme-ui-text opacity-60 text-sm">
-            Powered by MDX • Interactive Markdown
-          </p>
+          <p className="theme-ui-text opacity-60 text-sm">Powered by MDX • Interactive Markdown</p>
         </div>
       </div>
     </div>
@@ -198,9 +174,14 @@ function DynamicMDXPage({ type }) {
 
 export default function AppRouter() {
   useEffect(() => {
+    const current = window.getTheme?.();
     // Set default theme on app load
     if (window.setTheme && !document.body.className.includes('theme-')) {
       window.setTheme('default');
+    }
+    
+    if (window.setTheme && !current) {
+      window.setTheme('dark-desktop'); // sensible fallback you actually register
     }
   }, []);
 
@@ -210,11 +191,14 @@ export default function AppRouter() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/gallery" element={<Gallery />} />
       <Route path="/interests" element={<Interests />} />
-      
+
+      {/* NEW: Test page route */}
+      <Route path="/test" element={<TestPage />} />
+
       {/* Dynamic MDX content routes */}
       <Route path="/project/:slug" element={<DynamicMDXPage type="projects" />} />
       <Route path="/interest/:slug" element={<DynamicMDXPage type="interests" />} />
-      
+
       {/* Gravity Falls Research (preserved existing routes) */}
       <Route path="/gravity-falls-research" element={<GravityFallsResearch />} />
       <Route path="/gravity-falls-research/hypothesis" element={<HypothesisPage />} />
@@ -222,7 +206,7 @@ export default function AppRouter() {
       <Route path="/gravity-falls-research/methods" element={<MethodsPage />} />
       <Route path="/gravity-falls-research/data" element={<DataPage />} />
       <Route path="/gravity-falls-research/discussion" element={<DiscussionPage />} />
-      
+
       {/* Fallback route for 404 (optional) */}
       {/* <Route path="*" element={<NotFoundPage />} /> */}
     </Routes>

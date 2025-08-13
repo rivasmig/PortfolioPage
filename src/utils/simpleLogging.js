@@ -1,5 +1,5 @@
 // src/utils/simpleLogging.js
-
+import React, { useEffect, useRef, useState } from 'react';
 /**
  * Simple Logging Utilities for Debugging Physics and 3D Components
  * 

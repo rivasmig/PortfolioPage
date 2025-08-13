@@ -2,19 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles for the portfolio site */
+/* Global reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Default theme variables (fallbacks) */
+/* ---------------------------
+   Default theme fallbacks
+   (overridden by ThemeEngine CSS vars)
+---------------------------- */
 :root {
+  /* Base colors */
   --color-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --color-text: #ffffff;
   --color-surface: rgba(255, 255, 255, 0.1);
   --color-primary: #3b82f6;
+
+  /* UI tokens */
+  --ui-border-radius: 12px;
+  --ui-backdrop-blur: 10px;
+  --ui-shadow-primary: 0 4px 20px rgba(0, 0, 0, 0.25);
+  --animations-color-transition: 0.5s;
+
+  /* Desktop: windows */
+  --window-bg: rgba(16,18,24,0.42);
+  --window-border: rgba(255,255,255,0.14);
+  --window-backdrop-blur: 14px;
+  --window-title: #ffffff;
+  --window-radius: 22px;
+  --window-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  --window-header-height: 42px;
+  --window-header-bg: rgba(255,255,255,0.04);
+  --window-controls-size: 12px;
+  --window-controls-gap: 10px;
+  --window-icon-close: #ef4444;
+  --window-icon-min: #f59e0b;
+  --window-icon-max: #10b981;
+  --window-outline-focused: rgba(241,196,15,0.35);
+  --window-outline-width: 2px;
+  --window-resizer-size: 10px;
+  --window-resizer-hit: 12px;
+
+  /* Desktop: taskbar */
+  --taskbar-bg: rgba(10,12,18,0.65);
+  --taskbar-border: rgba(255,255,255,0.10);
+  --taskbar-height: 64px;
+  --taskbar-text: #E6EAF2;
+  --taskbar-icon: #E6EAF2;
+  --taskbar-blur: 10px;
+  --taskbar-gap: 8px;
+  --taskbar-button-bg: rgba(255,255,255,0.06);
+  --taskbar-button-hover-bg: rgba(255,255,255,0.12);
+  --taskbar-button-active-bg: rgba(255,255,255,0.18);
+  --taskbar-button-radius: 14px;
+  --taskbar-button-padding: 10px 14px;
+  --taskbar-main-button-bg: rgba(236,180,44,0.15);
+  --taskbar-main-button-hover-bg: rgba(236,180,44,0.25);
+  --taskbar-main-button-text: #f1c40f;
+  --taskbar-main-button-icon: #f1c40f;
+
+  /* Motion & layers */
+  --motion-duration-fast: 140ms;
+  --motion-duration-normal: 220ms;
+  --motion-duration-slow: 340ms;
+  --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  --z-windows: 20;
+  --z-taskbar: 30;
+  --z-overlay: 40;
 }
 
 body {
@@ -26,10 +84,11 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   transition: all 0.5s ease;
+  overscroll-behavior: none;
 }
 
-/* Theme-specific body styles */
-.theme-gravity-falls body {
+/* Ensure theme body class actually targets the body element */
+body.theme-gravity-falls {
   background: var(--color-background);
   font-family: 'Courier New', 'Lucida Console', monospace;
   font-size: 0.875rem;
@@ -38,20 +97,22 @@ body {
   text-transform: uppercase;
 }
 
-/* 3D Canvas specific styles */
+/* 3D Canvas */
 .three-canvas {
   width: 100%;
   height: 100vh;
   display: block;
 }
-
-/* Ensure the canvas takes full screen */
 canvas {
   display: block;
-  touch-action: none;
+  touch-action: none; /* let R3F gestures work */
 }
 
-/* Loading states */
+/* Scene interaction gates (toggle from React) */
+.scene-interactive { pointer-events: auto; }
+.scene-locked { pointer-events: none; }
+
+/* Loading */
 .loading-spinner {
   position: absolute;
   top: 50%;
@@ -61,22 +122,16 @@ canvas {
   font-size: 1.2rem;
 }
 
-/* Base styles for 3D content overlays */
+/* Overlay container above canvas */
 .content-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
-  z-index: 10;
+  z-index: var(--z-overlay);
 }
+.content-overlay > * { pointer-events: auto; }
 
-.content-overlay > * {
-  pointer-events: auto;
-}
-
-/* Theme-aware UI elements */
+/* Theme-aware panel (kept from your original) */
 .theme-ui-panel {
   background: var(--color-surface, rgba(255, 255, 255, 0.1));
   color: var(--color-text, #ffffff);
@@ -88,20 +143,351 @@ canvas {
   transition: all var(--animations-color-transition, 0.5s) ease;
 }
 
-/* Gravity Falls terminal styling */
-.theme-gravity-falls .theme-ui-panel {
+/* ---------------------------
+   Desktop Windows & Taskbar
+   (Complete, bottom-anchored, drag/resize-ready)
+---------------------------- */
+
+/* ---------- Z-layers & safe spacing ---------- */
+.desktop-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-windows, 10);
+  pointer-events: none; /* children re-enable as needed */
+  /* Keep windows from hiding under the taskbar */
+  padding-bottom: var(--desktop-safe-bottom, calc(var(--taskbar-height, 56px) + env(safe-area-inset-bottom, 0px)));
+}
+.desktop-layer > * { pointer-events: auto; }
+
+/* ---------- Window container ---------- */
+.window {
+  position: absolute;
+  border-radius: var(--window-radius, 14px);
+  box-shadow: var(--window-shadow, 0 20px 60px rgba(0,0,0,0.35));
+  overflow: hidden;
+  outline: none;
+  pointer-events: auto;
+  border: 1px solid var(--window-border, rgba(255,255,255,0.12));
+
+  /* outer frame (blue, themeable) */
+  background: var(--window-frame-bg, var(--window-bg, rgba(20,20,26,0.55)));
+  backdrop-filter: blur(var(--window-backdrop-blur, 14px)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--window-backdrop-blur, 14px)) saturate(120%);
+  border-image: var(--window-edge-rainbow, none) 1 stretch;
+
+  transition:
+    box-shadow var(--motion-duration-normal, 260ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1)),
+    transform var(--motion-duration-normal, 260ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1)),
+    background var(--motion-duration-normal, 260ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1));
+  will-change: transform, box-shadow, background;
+}
+
+.window:focus-visible,
+.window.window--active {
+  box-shadow:
+    0 0 0 var(--window-outline-width, 2px) var(--window-outline-focused, rgba(99,102,241,.6)),
+    var(--window-shadow, 0 20px 60px rgba(0,0,0,0.35));
+}
+
+.window.window--maximized { border-radius: var(--window-radius-maximized, 0); }
+
+@media (pointer: fine) {
+  .window:hover { transform: translateY(-1px); }
+}
+
+/* ---------- Titlebar (drag handle) ---------- */
+.window-titlebar {
+  display: flex;
+  align-items: center;
+  height: var(--window-header-height, 42px);
+  padding: 0 10px;
+  background: var(--window-header-bg, linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)));
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: move;
+  touch-action: none; /* avoid browser gestures stealing drag */
+  position: relative;
+}
+.window-titlebar:active { cursor: grabbing; }
+
+/* fun ridge highlight under titlebar */
+.window-titlebar::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: var(--window-header-ridge, linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent));
+  pointer-events: none;
+}
+
+.window-title {
+  color: var(--window-title, #e6e8ef);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  margin-left: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Control buttons (character-based) ---------- */
+.window-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--window-controls-gap, 6px);
+  margin-left: auto;
+}
+.window-btn {
+  width: var(--window-controls-size, 28px);
+  height: var(--window-controls-size, 24px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--window-title, #e6e8ef);
+  background: transparent;
+  border: 1px solid transparent;
+  user-select: none;
+  position: relative;    /* ripple anchor */
+  overflow: hidden;      /* clip ripple */
+
+  transition:
+    background var(--motion-duration-fast, 160ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1)),
+    border-color var(--motion-duration-fast, 160ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1)),
+    transform var(--motion-duration-fast, 160ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1));
+  --ripple-color: var(--window-controls-ripple, rgba(47,134,246,0.35));
+}
+.window-btn:hover {
+  background: var(--window-btn-hover, rgba(255,255,255,0.08));
+  border-color: var(--window-border, rgba(255,255,255,0.12));
+}
+.window-btn:active { transform: scale(0.96); }
+
+/* ripple without JS */
+.window-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 8px; height: 8px;
+  background: var(--ripple-color);
+  border-radius: 999px;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+.window-btn:active::after {
+  animation: btn-ripple 420ms var(--motion-easing-emphasized, cubic-bezier(0.2, 0, 0, 1)) 1;
+}
+@keyframes btn-ripple {
+  0%   { transform: scale(0);  opacity: 0.25; }
+  45%  { transform: scale(6);  opacity: 0.18; }
+  100% { transform: scale(10); opacity: 0; }
+}
+
+/* Red close hover only (others stay neutral/glass) */
+.window-controls .window-btn[aria-label="Close"]:hover {
+  background: color-mix(in srgb, var(--window-icon-close, #F55151) 18%, white);
+  border-color: color-mix(in srgb, var(--window-icon-close, #F55151) 40%, transparent);
+}
+
+/* ---------- Content (inner “white” area) ---------- */
+.window-content {
+  position: absolute;
+  top: var(--window-header-height, 42px);
+  left: 0; right: 0; bottom: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+
+/* distinct inner panel (white/glass mix) */
+.window-inner-frame {
+  height: 100%;
+  border-radius: calc(var(--window-radius, 14px) - 8px);
+  border: 1px solid var(--window-inner-border, var(--window-border, rgba(255,255,255,0.12)));
+  background: var(--window-inner-bg,
+    linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.45))
+  );
+  backdrop-filter: blur(calc(var(--window-backdrop-blur, 14px) * 0.4));
+  -webkit-backdrop-filter: blur(calc(var(--window-backdrop-blur, 14px) * 0.4));
+}
+
+/* Scrollbars */
+.window-content::-webkit-scrollbar { width: 10px; height: 10px; }
+.window-content::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, rgba(0,0,0,0.25));
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.window-content::-webkit-scrollbar-track { background: transparent; }
+@supports (scrollbar-color: auto) {
+  .window-content {
+    scrollbar-color: var(--scrollbar-thumb, rgba(0,0,0,0.25)) transparent;
+    scrollbar-width: thin;
+  }
+}
+
+/* ---------- Resizers (hit areas inside frame) ---------- */
+.window-resizer {
+  position: absolute;
+  z-index: 2;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+/* edges */
+.window-resizer.n { top: 0; left: 6px; right: 6px; height: 6px; cursor: ns-resize; }
+.window-resizer.s { bottom: 0; left: 6px; right: 6px; height: 6px; cursor: ns-resize; }
+.window-resizer.e { right: 0; top: 6px; bottom: 6px; width: 6px; cursor: ew-resize; }
+.window-resizer.w { left: 0; top: 6px; bottom: 6px; width: 6px; cursor: ew-resize; }
+
+/* corners */
+.window-resizer.ne { right: 0; top: 0; width: 12px; height: 12px; cursor: nesw-resize; }
+.window-resizer.nw { left: 0;  top: 0; width: 12px; height: 12px; cursor: nwse-resize; }
+.window-resizer.se { right: 0; bottom: 0; width: 14px; height: 14px; cursor: nwse-resize; }
+.window-resizer.sw { left: 0;  bottom: 0; width: 14px; height: 14px; cursor: nesw-resize; }
+
+@media (pointer: fine) {
+  .window-resizer:hover { outline: 1px dashed rgba(255,255,255,0.25); outline-offset: -2px; }
+}
+
+/* ---------- Taskbar (forced to bottom) ---------- */
+.taskbar {
+  position: fixed !important;      /* beat accidental overrides / Tailwind */
+  left: 0;
+  right: 0;
+  top: auto !important;            /* neutralize rogue top:0 */
+  bottom: 0 !important;            /* lock to bottom */
+  z-index: var(--z-taskbar, 20);
+
+  height: calc(var(--taskbar-height, 56px) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+
+  display: flex;
+  align-items: center;
+  gap: var(--taskbar-gap, 10px);
+  padding-left: clamp(10px, 2vw, 20px);
+  padding-right: clamp(10px, 2vw, 20px);
+
+  backdrop-filter: blur(var(--taskbar-blur, 12px));
+  -webkit-backdrop-filter: blur(var(--taskbar-blur, 12px));
+  background: var(--taskbar-bg, rgba(16,16,22,0.55));
+  border-top: 1px solid var(--taskbar-border, rgba(255,255,255,0.12));
+  color: var(--taskbar-text, #0b1e4b); /* readable over light glass */
+  position: fixed !important;      /* keep stacking context consistent */
+  overflow: visible;
+}
+
+/* Fun: soft colorful shimmer */
+.taskbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--taskbar-shimmer, transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* wrapper */
+.taskbar-content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--taskbar-gap, 10px);
+}
+
+/* Taskbar buttons */
+.taskbar-button {
+  background: var(--taskbar-button-bg, rgba(255,255,255,0.55));
+  border: 1px solid transparent;
+  color: var(--taskbar-text, #0b1e4b);
+  border-radius: var(--taskbar-button-radius, 10px);
+  padding: var(--taskbar-button-padding, 10px 12px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background var(--motion-duration-fast, 160ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1)),
+    transform var(--motion-duration-fast, 160ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1)),
+    border-color var(--motion-duration-fast, 160ms) var(--motion-easing-standard, cubic-bezier(.2,.8,.2,1));
+}
+.taskbar-button:hover {
+  background: var(--taskbar-button-hover-bg, rgba(255,255,255,0.8));
+  transform: translateY(-1px);
+}
+.taskbar-button:active {
+  background: var(--taskbar-button-active-bg, rgba(255,255,255,0.72));
+  transform: translateY(0);
+}
+.taskbar-button .icon { color: var(--taskbar-icon, #0b1e4b); }
+
+.taskbar-button.is-active {
+  border-color: var(--taskbar-active-ring, rgba(99,102,241,.5));
+  box-shadow: 0 0 0 2px var(--taskbar-active-ring, rgba(99,102,241,.3));
+}
+.taskbar-button.is-minimized { opacity: .85; }
+
+/* CTA when no window visible */
+.taskbar-main {
+  background: var(--taskbar-main-button-bg, rgba(59,130,246,.18));
+  color: var(--taskbar-main-button-text, #0b1e4b);
+}
+.taskbar-main:hover { background: var(--taskbar-main-button-hover-bg, rgba(59,130,246,.28)); }
+
+/* ---------- Helpers & accessibility ---------- */
+.canvas-underlay { z-index: 0; }
+.windows-overlay { z-index: var(--z-windows, 10); }
+
+.window *::selection { background: rgba(99,102,241,.25); color: #00225f; }
+
+@media (prefers-contrast: more) {
+  .window { border-color: rgba(255,255,255,0.5); }
+  .taskbar { border-top-color: rgba(255,255,255,0.5); }
+  .window-btn:hover { border-color: rgba(255,255,255,0.7); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window, .window-btn, .taskbar-button { transition: none !important; }
+}
+
+@media (pointer: coarse) {
+  .window-titlebar { cursor: default; }
+  .window-resizer { display: none; } /* no resize on mobile */
+}
+
+/* Optional focus pulse */
+@keyframes window-focus-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(99,102,241,.0); }
+  50% { box-shadow: 0 0 0 6px rgba(99,102,241,.18); }
+  100% { box-shadow: 0 0 0 0 rgba(99,102,241,.0); }
+}
+.window.window--focus-pulse { animation: window-focus-pulse 900ms ease-out 1; }
+
+/* ---------------------------
+   Gravity Falls (kept, selector fixed)
+---------------------------- */
+body.theme-gravity-falls .theme-ui-panel {
   background: var(--color-surface);
   border: 2px solid var(--color-primary);
   border-radius: 0;
   backdrop-filter: none;
-  box-shadow: 
+  box-shadow:
     0 0 20px var(--color-primary),
     0 0 40px var(--color-primary),
     inset 0 0 20px rgba(0, 255, 65, 0.1);
   animation: terminalGlow 2s ease-in-out infinite alternate;
 }
 
-.theme-gravity-falls .theme-ui-text {
+body.theme-gravity-falls .theme-ui-text {
   color: var(--color-primary);
   text-shadow: 0 0 10px var(--color-primary);
   font-family: 'Courier New', monospace;
@@ -109,8 +495,7 @@ canvas {
   letter-spacing: 0.1em;
 }
 
-/* Terminal-style buttons for Gravity Falls theme */
-.theme-gravity-falls .theme-button {
+body.theme-gravity-falls .theme-button {
   background: transparent;
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
@@ -122,35 +507,27 @@ canvas {
   transition: all 0.1s ease;
   box-shadow: 0 0 10px var(--color-primary);
 }
-
-.theme-gravity-falls .theme-button:hover {
+body.theme-gravity-falls .theme-button:hover {
   background: var(--color-primary);
   color: var(--color-background);
-  box-shadow: 
+  box-shadow:
     0 0 20px var(--color-primary),
     0 0 40px var(--color-primary);
 }
-
-.theme-gravity-falls .theme-button.active {
+body.theme-gravity-falls .theme-button.active {
   background: var(--color-primary);
   color: var(--color-background);
-  box-shadow: 
+  box-shadow:
     0 0 15px var(--color-primary),
     inset 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Terminal scanlines effect */
-.theme-gravity-falls::before {
+/* Terminal scanlines overlay */
+body.theme-gravity-falls::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    transparent 50%,
-    rgba(0, 255, 65, 0.03) 50%
-  );
+  inset: 0;
+  background: linear-gradient(transparent 50%, rgba(0, 255, 65, 0.03) 50%);
   background-size: 100% 4px;
   pointer-events: none;
   z-index: 1000;
@@ -159,90 +536,52 @@ canvas {
 
 /* Animations for Gravity Falls theme */
 @keyframes terminalGlow {
-  0% { 
-    box-shadow: 
+  0% {
+    box-shadow:
       0 0 20px var(--color-primary),
       0 0 40px var(--color-primary),
       inset 0 0 20px rgba(0, 255, 65, 0.1);
   }
-  100% { 
-    box-shadow: 
+  100% {
+    box-shadow:
       0 0 30px var(--color-primary),
       0 0 60px var(--color-primary),
       inset 0 0 30px rgba(0, 255, 65, 0.2);
   }
 }
-
 @keyframes scanlines {
   0% { transform: translateY(0); }
   100% { transform: translateY(4px); }
 }
 
-/* Responsive 3D adjustments */
-@media (max-width: 768px) {
-  .three-canvas {
-    height: 100vh;
-  }
-  
-  .mobile-optimized {
-    transform: scale(0.8);
-  }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  
-  .theme-gravity-falls::before {
-    display: none;
-  }
-}
-
-/* MDX prose styling using your existing theme system */
+/* ---------------------------
+   MDX Prose
+---------------------------- */
 .prose-style {
   line-height: 1.6;
   font-size: 1rem;
 }
-
 .prose-style h1 {
   font-size: 2.5rem;
   font-weight: bold;
   margin: 1.5rem 0 1rem 0;
   color: var(--color-text);
 }
-
 .prose-style h2 {
   font-size: 2rem;
   font-weight: bold;
   margin: 1.25rem 0 0.75rem 0;
   color: var(--color-text);
 }
-
 .prose-style h3 {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 1rem 0 0.5rem 0;
   color: var(--color-text);
 }
-
-.prose-style p {
-  margin: 0.75rem 0;
-  color: var(--color-text);
-}
-
-.prose-style ul, .prose-style ol {
-  margin: 0.75rem 0;
-  padding-left: 1.5rem;
-}
-
-.prose-style li {
-  margin: 0.25rem 0;
-}
-
+.prose-style p { margin: 0.75rem 0; color: var(--color-text); }
+.prose-style ul, .prose-style ol { margin: 0.75rem 0; padding-left: 1.5rem; }
+.prose-style li { margin: 0.25rem 0; }
 .prose-style code {
   background: rgba(255, 255, 255, 0.1);
   padding: 0.25rem 0.5rem;
@@ -250,7 +589,6 @@ canvas {
   font-family: 'Courier New', monospace;
   color: var(--color-primary);
 }
-
 .prose-style pre {
   background: rgba(0, 0, 0, 0.3);
   padding: 1rem;
@@ -258,7 +596,6 @@ canvas {
   overflow-x: auto;
   margin: 1rem 0;
 }
-
 .prose-style blockquote {
   border-left: 4px solid var(--color-primary);
   padding-left: 1rem;
@@ -266,7 +603,9 @@ canvas {
   opacity: 0.8;
 }
 
-/* Navigation button styling */
+/* ---------------------------
+   Generic theme button (kept)
+---------------------------- */
 .theme-button {
   background: transparent;
   border: 1px solid var(--color-primary);
@@ -274,8 +613,24 @@ canvas {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
 .theme-button:hover {
   background: var(--color-primary);
   color: var(--color-background);
+}
+
+/* ---------------------------
+   Responsive & Accessibility
+---------------------------- */
+@media (max-width: 768px) {
+  .three-canvas { height: 100vh; }
+  .mobile-optimized { transform: scale(0.8); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  body.theme-gravity-falls::before { display: none; }
 }
