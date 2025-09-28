@@ -35,7 +35,7 @@ function MainWindowContent() {
       {/* Left: avatar */}
       <div className="flex justify-center">
         <img
-          src="https://i.ibb.co/dRX7fCc/Screenshot-20250810-125618-Gallery-1.jpg"
+          src="https://i.ibb.co/6RGqy4Bq/Screenshot-20250924-095632-Gallery-1.jpg"
           alt="Miguel Rivas"
           className="w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-white/70 shadow-md"
           draggable="false"
